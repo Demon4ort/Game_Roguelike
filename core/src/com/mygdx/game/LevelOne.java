@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class LevelOne implements Screen {
@@ -29,11 +31,25 @@ public class LevelOne implements Screen {
         stage=new Stage(new FitViewport(20,15,camera));
 
         camera.position.set(new Vector2(10,7), 0);
+        final Rect rect=new Rect(world);
+        stage.addActor(rect);
+        stage.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("cc");
+                rect.move(x,y);
+                super.clicked(event, x, y);
+            }
+        });
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(Math.min(delta, 1 / 30f));
+        stage.draw();
+        world.step(1/60f, 2,6);
     }
 
     @Override
