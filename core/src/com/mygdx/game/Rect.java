@@ -18,7 +18,7 @@ public class Rect extends  GameObject {
         setBounds(2,2,2,2);
         PolygonShape shape=new PolygonShape();
         shape.setAsBox(2,2);
-        createBody(shape, BodyDef.BodyType.KinematicBody,0, 0, 1);
+        createBody(shape, BodyDef.BodyType.DynamicBody,0, 0, 1);
         sprite.setBounds( getX(), getY(), getWidth(), getHeight());
 
     }
@@ -31,8 +31,6 @@ public class Rect extends  GameObject {
         sprite.draw(batch);
     }
 
-    public void move(float x, float y){
-        body.setTransform(x-(getWidth()/2),y-(getHeight()/2),0);
-    }
+
 
 }

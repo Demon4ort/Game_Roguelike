@@ -28,4 +28,8 @@ public abstract class GameObject extends Actor {
         fixtureDef.friction=friction;
         body.createFixture(fixtureDef);
     }
+
+    public void move(float x, float y){
+        body.setTransform(x-(getWidth()/2),y-(getHeight()/2),0);
+    }
 }
