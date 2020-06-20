@@ -18,7 +18,7 @@ public abstract class GameObject extends Actor {
 
     protected void createBody(Shape shape, BodyDef.BodyType type, int density,float restitution, float friction){
         BodyDef bodyDef=new BodyDef();
-        bodyDef.position.set(getX(),getY());
+        bodyDef.position.set(getX()+getWidth()/2,getY()+getHeight()/2);
         bodyDef.type=type;
         body=world.createBody(bodyDef);
         FixtureDef fixtureDef=new FixtureDef();
