@@ -38,7 +38,7 @@ public abstract class GameObject extends Actor {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.isSensor=isSensor;
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef).setUserData("Ground");
 
     }
 
