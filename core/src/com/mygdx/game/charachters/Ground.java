@@ -12,6 +12,7 @@ public class Ground extends GameObject {
         PolygonShape shape=new PolygonShape();
         shape.setAsBox(12.5f,0.5f);
         createBody(shape, BodyDef.BodyType.StaticBody, 0, 0.1f, 1f);
+        super.body.setUserData("Ground");
 
     }
 

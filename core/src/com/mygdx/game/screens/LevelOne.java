@@ -11,9 +11,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.MainGame;
 import com.mygdx.game.WorldContactListener;
+import com.mygdx.game.charachters.Enemy;
+import com.mygdx.game.charachters.GameObject;
 import com.mygdx.game.charachters.Ground;
 import com.mygdx.game.charachters.Hero;
 
@@ -24,7 +27,8 @@ public class LevelOne implements Screen {
     private OrthographicCamera camera;
     private Stage stage;
     Box2DDebugRenderer renderer;
-     Hero hero;
+    Hero hero;
+    WorldContactListener worldContactListener;
 
     public LevelOne(MainGame game){
         this.game=game;
@@ -43,11 +47,19 @@ public class LevelOne implements Screen {
         stage.setDebugAll(true);
 
         camera.position.set(new Vector2(10,7), 0);
-         hero =new Hero(world);
-        world.setContactListener(new WorldContactListener(hero));
+        Array<GameObject> actors=new Array<>();
+        Enemy enemy=new Enemy(world);
+        hero =new Hero(world);
+
         Ground ground=new Ground(world);
         stage.addActor(ground);
         stage.addActor(hero);
+        stage.addActor(enemy);
+        actors.addAll(ground,enemy,hero);
+        worldContactListener=new WorldContactListener(actors);
+
+        world.setContactListener(worldContactListener);
+
         stage.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {

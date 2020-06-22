@@ -6,7 +6,21 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public abstract class GameObject extends Actor {
 
+    public void setHealth(int damage) {
+        this.health -= damage;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    int health;
     Sprite sprite;
+
+    public Body getBody() {
+        return body;
+    }
+
     Body body;
     BodyDef bodyDef;
     private World world;

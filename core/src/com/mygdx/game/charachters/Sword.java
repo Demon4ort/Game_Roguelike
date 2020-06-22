@@ -1,6 +1,7 @@
 package com.mygdx.game.charachters;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -9,10 +10,17 @@ public class Sword extends GameObject {
 
     public Sword(World world, float x, float y) {
         super(world);
-        setBounds(x,y,4, 2);
+        setBounds(x,y,3.4f, 2);
         PolygonShape shape=new PolygonShape();
-        shape.setAsBox(2,1);
-        createBody(shape, BodyDef.BodyType.KinematicBody,true);
+        shape.setAsBox(1.7f,1);
+        BodyDef bodyDef=new BodyDef();
+        bodyDef.type= BodyDef.BodyType.KinematicBody;
+        FixtureDef fixtureDef=new FixtureDef();
+        fixtureDef.shape=shape;
+        fixtureDef.isSensor=true;
+        body=world.createBody(bodyDef);
+        body.createFixture(fixtureDef).setUserData(this);
+        body.setUserData("Sword");
 
     }
     @Override
