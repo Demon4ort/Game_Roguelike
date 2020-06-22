@@ -1,12 +1,18 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.mygdx.game.screens.LevelOne;
+import com.mygdx.game.screens.LoadingScreen;
+import com.mygdx.game.screens.Menu;
 
 public class MainGame extends Game {
 
 	Menu menu;
 	private LevelOne level;
 	private LoadingScreen loading;
+	public final static float V_HEIGHT=208;
+	public final static float V_WIDTH=400;
+	public final static float PPM=100;
 
 	@Override
 	public void create () {
