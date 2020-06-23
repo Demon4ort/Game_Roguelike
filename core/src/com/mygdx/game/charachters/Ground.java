@@ -5,13 +5,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Ground extends GameObject {
-    public Ground(World world) {
+    public Ground(World world, float x, float y, float width, float height) {
         super(world);
         name="Ground";
-        setBounds(-1,1,25,1);
+        setBounds(x,y,width,height);
         PolygonShape shape=new PolygonShape();
-        shape.setAsBox(12.5f,0.5f);
-        createBody(shape, BodyDef.BodyType.StaticBody, 0, 0.1f, 1f);
+        shape.setAsBox(width/2,height/2);
+        createBody(shape, BodyDef.BodyType.StaticBody, 0, 0.1f, 1f,this);
         super.body.setUserData(this);
 
     }

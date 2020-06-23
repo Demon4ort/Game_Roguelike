@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -41,30 +44,28 @@ public class LevelOne implements Screen {
         this.game=game;
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("maps/littleMap.tmx");
-        tiledRenderer = new OrthogonalTiledMapRenderer(map);
-        map = mapLoader.load("maps/lastMap.tmx");
 
-        tiledRenderer = new OrthogonalTiledMapRenderer(map,0.07f);
-/*
-        BodyDef bodyDef=new BodyDef();
-        PolygonShape shape=new PolygonShape();
-        FixtureDef fixtureDef=new FixtureDef();
-        Body body;
+      //  map = mapLoader.load("maps/lastMap.tmx");
 
-        for(MapObject e: map.getLayers().get(0).getObjects().getByType(RectangleMapObject.class)){
+        tiledRenderer = new OrthogonalTiledMapRenderer(map,0.0625f);
+        world=new World(new Vector2(0,-10),true);
+
+        renderer = new Box2DDebugRenderer();
+        camera=new OrthographicCamera();
+        stage=new Stage(new FitViewport(30,22.5f,camera));
+
+        Ground ground;
+
+        for(MapObject e: map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect=((RectangleMapObject)e).getRectangle();
-            bodyDef.type= BodyDef.BodyType.StaticBody;
-            bodyDef.position.set(rect.getX(),rect.getY());
-            body=world.createBody(bodyDef);
-            shape.setAsBox(1,1);
-            fixtureDef.shape=shape;
-            body.createFixture(fixtureDef);
+            ground=new Ground(world,(rect.getX())/16,rect.getY()/16,
+                    rect.getWidth()/16 ,rect.getHeight()/16 );
+
+            stage.addActor(ground);
         }
 
- */
 
 
-        tiledRenderer = new OrthogonalTiledMapRenderer(map, (float) 0.1);
 
 
     }
@@ -74,11 +75,7 @@ public class LevelOne implements Screen {
     @Override
     public void show() {
         Box2D.init();
-        world=new World(new Vector2(0,-10),true);
 
-        renderer = new Box2DDebugRenderer();
-        camera=new OrthographicCamera();
-        stage=new Stage(new FitViewport(30,22.5f,camera));
         stage.setDebugAll(true);
 
         camera.position.set(new Vector2(10,7), 0);
@@ -86,12 +83,10 @@ public class LevelOne implements Screen {
         Enemy enemy=new Enemy(world);
         hero =new Hero(world);
 
-        Ground ground=new Ground(world);
-        stage.addActor(ground);
 
         stage.addActor(hero);
         stage.addActor(enemy);
-        actors.addAll(ground,enemy,hero);
+        actors.addAll(enemy,hero);
         worldContactListener=new WorldContactListener(actors);
 
         world.setContactListener(worldContactListener);
@@ -113,23 +108,14 @@ public class LevelOne implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(delta, 1 / 30f));
-        /*Array<Actor>actors=new Array<>();
-        actors.addAll(stage.getActors());
-        stage.clear();
-        for(Actor e: actors){
-            GameObject gameObject = (GameObject) e;
-            if(gameObject.getHealth()>0){
-                stage.addActor(e);
-            }
-        }
 
-         */
-        stage.draw();
-        camera.position.set(hero.getCenterX(),camera.position.y,0);
-        renderer.render(world, camera.combined);
-        world.step(1/60f, 6,2);
         tiledRenderer.setView(camera);
         tiledRenderer.render();
+        stage.draw();
+        camera.position.set(hero.getCenterX(),hero.getCenterY(),0);
+        renderer.render(world, camera.combined);
+        world.step(1/60f, 6,2);
+
     }
 
     @Override

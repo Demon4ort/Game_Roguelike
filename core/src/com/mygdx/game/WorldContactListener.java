@@ -20,9 +20,9 @@ public class WorldContactListener implements ContactListener {
 
     boolean inAttackRange;
     public WorldContactListener(Array<GameObject> actors) {
-        this.hero= (Hero) actors.get(2);
+        this.hero= (Hero) actors.get(1);
         sword=hero.getSword();
-        this.enemy=(Enemy) actors.get(1);
+        this.enemy=(Enemy) actors.get(0);
     }
 
     @Override
