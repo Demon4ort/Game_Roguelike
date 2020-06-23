@@ -1,0 +1,16 @@
+Index: core/src/com/mygdx/game/charachters/GameObject.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- core/src/com/mygdx/game/charachters/GameObject.java	(date 1592852744000)
++++ core/src/com/mygdx/game/charachters/GameObject.java	(date 1592853257526)
+@@ -38,7 +38,7 @@
+         FixtureDef fixtureDef = new FixtureDef();
+         fixtureDef.shape = shape;
+         fixtureDef.isSensor=isSensor;
+-        body.createFixture(fixtureDef).setUserData("Ground");
++        body.createFixture(fixtureDef).setUserData(this);
+ 
+     }
+ 
