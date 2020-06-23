@@ -41,7 +41,27 @@ public class LevelOne implements Screen {
         this.game=game;
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("maps/lastMap.tmx");
-        tiledRenderer = new OrthogonalTiledMapRenderer(map);
+
+        tiledRenderer = new OrthogonalTiledMapRenderer(map,0.07f);
+/*
+        BodyDef bodyDef=new BodyDef();
+        PolygonShape shape=new PolygonShape();
+        FixtureDef fixtureDef=new FixtureDef();
+        Body body;
+
+        for(MapObject e: map.getLayers().get(0).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect=((RectangleMapObject)e).getRectangle();
+            bodyDef.type= BodyDef.BodyType.StaticBody;
+            bodyDef.position.set(rect.getX(),rect.getY());
+            body=world.createBody(bodyDef);
+            shape.setAsBox(1,1);
+            fixtureDef.shape=shape;
+            body.createFixture(fixtureDef);
+        }
+
+ */
+
+
 
     }
 
@@ -100,12 +120,14 @@ public class LevelOne implements Screen {
         }
 
          */
+        tiledRenderer.render();
         stage.draw();
-        camera.position.set(hero.getCenterX(),camera.position.y,0);
+        camera.position.set(hero.getCenterX(),hero.getCenterY(),0);
         renderer.render(world, camera.combined);
+
         world.step(1/60f, 6,2);
         tiledRenderer.setView(camera);
-        tiledRenderer.render();
+
     }
 
     @Override

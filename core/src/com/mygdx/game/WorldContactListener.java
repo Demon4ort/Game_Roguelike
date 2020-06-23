@@ -66,8 +66,8 @@ public class WorldContactListener implements ContactListener {
         //Gdx.app.log("End contact", "");
         Fixture a=contact.getFixtureA();
         Fixture b=contact.getFixtureB();
-        if(((a.getUserData()=="Sword" && b.getBody().getUserData()=="Enemy") ||
-                (b.getUserData()=="Sword" && a.getBody().getUserData()=="Enemy"))){
+        if(((a.getUserData()=="Sword" && (((GameObject)b.getBody().getUserData()).getName())=="Enemy") ||
+                (b.getUserData()=="Sword" && (((GameObject)a.getBody().getUserData()).getName())=="Enemy"))){
 
             hero.setInAttackingRange(false);
             hero.setEnemy(null);
