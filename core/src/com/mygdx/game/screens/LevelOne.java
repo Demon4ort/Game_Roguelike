@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -30,8 +33,16 @@ public class LevelOne implements Screen {
     Hero hero;
     WorldContactListener worldContactListener;
 
+    private TmxMapLoader mapLoader;
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer tiledRenderer;
+
     public LevelOne(MainGame game){
         this.game=game;
+        mapLoader = new TmxMapLoader();
+        map = mapLoader.load("maps/lastMap.tmx");
+        tiledRenderer = new OrthogonalTiledMapRenderer(map);
+
     }
 
 
@@ -92,6 +103,8 @@ public class LevelOne implements Screen {
         camera.position.set(hero.getCenterX(),camera.position.y,0);
         renderer.render(world, camera.combined);
         world.step(1/60f, 6,2);
+        tiledRenderer.setView(camera);
+        tiledRenderer.render();
     }
 
     @Override
