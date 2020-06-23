@@ -19,8 +19,8 @@ public class Sword extends GameObject {
         fixtureDef.shape=shape;
         fixtureDef.isSensor=true;
         body=world.createBody(bodyDef);
-        body.createFixture(fixtureDef).setUserData(this);
-        body.setUserData("Sword");
+        body.createFixture(fixtureDef).setUserData("Sword");
+        body.setUserData(this);
 
     }
     @Override

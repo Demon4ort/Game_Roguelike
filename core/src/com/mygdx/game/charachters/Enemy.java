@@ -43,6 +43,7 @@ public class Enemy extends GameObject {
 
     public Enemy(World world) {
         super(world);
+        name="Enemy";
         health=100;
 
         currentState= State.IDLE;
@@ -90,10 +91,10 @@ public class Enemy extends GameObject {
         bodyDef.position.set(getX() + getWidth() / 2, getY() + getHeight() / 2);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
-        body.setUserData("Enemy");
+        body.setUserData(this);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        body.createFixture(fixtureDef).setUserData(this);
+        body.createFixture(fixtureDef).setUserData("Enemy");
 
         //   createBody(shape, BodyDef.BodyType.DynamicBody,false);
 
@@ -107,17 +108,21 @@ public class Enemy extends GameObject {
     public void act(float delta) {
         move();
         setPosition(body.getPosition().x-getWidth()/2,body.getPosition().y-getHeight()/2);
+        if(health<=0){
+            body.setActive(false);
+        }
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // body.setTransform(getX()+1,getY()+1,0);
-        if(body.getLinearVelocity().isZero()){
+       if(health>0) {
+           if(body.getLinearVelocity().isZero()){
             currentState=State.IDLE;
         }
 
         TextureRegion currentFrame=getFrame(Gdx.graphics.getDeltaTime());
-        batch.draw(currentFrame, getX()-(getWidth()*0.25f),getY(),getWidth()*1.5f, getHeight());
+        batch.draw(currentFrame, getX()-(getWidth()*0.25f),getY(),getWidth()*1.5f, getHeight()*1.5f);}
        /* switch(currentState){
             case ATTACK:
                 batch.draw(currentFrame, getX()-(getWidth()*0.75f),getY(),getWidth()*3f, getHeight()*1.5f);
@@ -176,7 +181,7 @@ public class Enemy extends GameObject {
 
 
     private void move(){
-        if(true){
+        if(body!=null){
             if(true && body.getLinearVelocity().x<MAX_VX){
                 isTurnedRight=true;
                 body.applyForceToCenter(800,0,true);

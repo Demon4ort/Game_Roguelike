@@ -14,6 +14,18 @@ public abstract class GameObject extends Actor {
         return health;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    String name="GameObject";
+
     int health;
     Sprite sprite;
 
@@ -29,6 +41,7 @@ public abstract class GameObject extends Actor {
     public GameObject(World world) {
         this.world = world;
     }
+
 
 
     protected void createBody(Shape shape, BodyDef.BodyType type, int density,float restitution, float friction){

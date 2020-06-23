@@ -22,6 +22,7 @@ public class WorldContactListener implements ContactListener {
     public WorldContactListener(Array<GameObject> actors) {
         this.hero= (Hero) actors.get(2);
         sword=hero.getSword();
+        this.enemy=(Enemy) actors.get(1);
     }
 
     @Override
@@ -42,28 +43,21 @@ public class WorldContactListener implements ContactListener {
         if(b.getUserData()=="Enemy"){
             enemy= (Enemy) b.getBody().getUserData();
         }
-        /*if(a.getUserData()=="Legs" || b.getUserData()=="Legs"){
-            Fixture legs = a.getUserData() == "Legs" ? a : b;
-            Fixture ground = a==legs ? b : a;
-            hero.setCanJump(true);
-            Gdx.app.log("Begin contact", "");
-            if(ground.getUserData()=="Ground"){
 
-            }
-        }
 
-         */
 
-        if((a.getUserData()=="Legs" && b.getBody().getUserData()=="Ground") || (b.getUserData()=="Legs" && a.getBody().getUserData()=="Ground")){
+
+        if((a.getUserData()=="Legs" &&(((GameObject)b.getBody().getUserData()).getName())=="Ground") || (b.getUserData()=="Legs" && (((GameObject)a.getBody().getUserData()).getName())=="Ground")){
             hero.setCanJump(true);
            // Gdx.app.log("Begin contact", "");
         }
-        if(((a.getUserData()=="Sword" && b.getUserData()=="Enemy") || (b.getUserData()=="Sword" && a.getUserData()=="Enemy"))){
+        if(((a.getUserData()=="Sword" && (((GameObject)b.getBody().getUserData()).getName())=="Enemy") ||
+                (b.getUserData()=="Sword" && (((GameObject)a.getBody().getUserData()).getName())=="Enemy"))){
             inAttackRange=true;
             Gdx.app.log("Trying to attack","");
-            if(hero.isAttacking()){
+            hero.setInAttackingRange(inAttackRange);
+            hero.setEnemy(enemy);
 
-            }
         }
     }
 
@@ -72,8 +66,11 @@ public class WorldContactListener implements ContactListener {
         //Gdx.app.log("End contact", "");
         Fixture a=contact.getFixtureA();
         Fixture b=contact.getFixtureB();
-        if(((a.getUserData()=="Sword" && b.getUserData()=="Enemy") || (b.getUserData()=="Sword" && a.getUserData()=="Enemy"))){
-            inAttackRange=false;
+        if(((a.getUserData()=="Sword" && b.getBody().getUserData()=="Enemy") ||
+                (b.getUserData()=="Sword" && a.getBody().getUserData()=="Enemy"))){
+
+            hero.setInAttackingRange(false);
+            hero.setEnemy(null);
         }
 
     }

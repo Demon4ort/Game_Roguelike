@@ -77,6 +77,17 @@ public class LevelOne implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(delta, 1 / 30f));
+        /*Array<Actor>actors=new Array<>();
+        actors.addAll(stage.getActors());
+        stage.clear();
+        for(Actor e: actors){
+            GameObject gameObject = (GameObject) e;
+            if(gameObject.getHealth()>0){
+                stage.addActor(e);
+            }
+        }
+
+         */
         stage.draw();
         camera.position.set(hero.getCenterX(),camera.position.y,0);
         renderer.render(world, camera.combined);

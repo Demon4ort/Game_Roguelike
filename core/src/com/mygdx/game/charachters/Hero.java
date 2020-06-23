@@ -29,6 +29,16 @@ public class Hero extends  GameObject {
 
     boolean isAttacking;
 
+    public boolean isInAttackingRange() {
+        return inAttackingRange;
+    }
+
+    public void setInAttackingRange(boolean inAttackingRange) {
+        this.inAttackingRange = inAttackingRange;
+    }
+
+    boolean inAttackingRange;
+
 
 
     public void setCanJump(boolean canJump) {
@@ -61,8 +71,19 @@ public class Hero extends  GameObject {
 
     Sword sword;
 
+    public Enemy getEnemy() {
+        return enemy;
+    }
+
+    public void setEnemy(Enemy enemy) {
+        this.enemy = enemy;
+    }
+
+    Enemy enemy;
+
     public Hero(World world) {
         super(world);
+        name="Hero";
         currentState=State.IDLE;
         currentState=State.IDLE;
         stateTime =0;
@@ -116,11 +137,11 @@ public class Hero extends  GameObject {
         bodyDef.position.set(getX() + getWidth() / 2, getY() + getHeight() / 2);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
-        body.setUserData("Legs");
+        body.setUserData(this);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         shape.setPosition(new Vector2(0,-0.5f));
-        body.createFixture(fixtureDef).setUserData(this);
+        body.createFixture(fixtureDef).setUserData("Legs");
 
      //   createBody(shape, BodyDef.BodyType.DynamicBody,false);
         shape.setPosition(new Vector2(0,0.5f));
@@ -255,12 +276,27 @@ public class Hero extends  GameObject {
             if(keyCode== Input.Keys.F){
                 currentState=State.ATTACK;
                 isAttacking=true;
+                Gdx.app.log(String.valueOf(inAttackingRange), "");
 
                 if(isTurnedRight){
                     body.applyLinearImpulse(5,0, getX()+ getWidth()/2,
                             getY()+ getHeight()/2,true);
                 }else body.applyLinearImpulse(-5,0, getX()+ getWidth()/2,
                         getY()+ getHeight()/2,true);
+                if(inAttackingRange){
+                    if(enemy!=null){
+                       try{
+                           int x= (int) (enemy.body.getPosition().x-body.getPosition().x);
+
+                            enemy.getBody().applyLinearImpulse(x*(10),
+                                30,enemy.getBody().getPosition().x,enemy.body.getPosition().y,true);
+                            enemy.setHealth(10);
+                            Gdx.app.log(String.valueOf(enemy.getHealth()),"");
+                        }catch (NullPointerException e){
+                           e.printStackTrace();
+                       }
+                    }else Gdx.app.log("Enemy is null", "");
+                }
             }
 
         }
