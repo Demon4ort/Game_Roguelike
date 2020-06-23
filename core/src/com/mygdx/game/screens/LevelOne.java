@@ -41,7 +41,7 @@ public class LevelOne implements Screen {
         this.game=game;
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("maps/littleMap.tmx");
-        tiledRenderer = new OrthogonalTiledMapRenderer(map);
+        tiledRenderer = new OrthogonalTiledMapRenderer(map, (float) 0.1);
 
     }
 
