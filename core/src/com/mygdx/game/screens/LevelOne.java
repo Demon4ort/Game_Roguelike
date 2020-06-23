@@ -64,6 +64,7 @@ public class LevelOne implements Screen {
  */
 
 
+        tiledRenderer = new OrthogonalTiledMapRenderer(map, (float) 0.1);
 
     }
 
