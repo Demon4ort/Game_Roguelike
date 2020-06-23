@@ -41,6 +41,29 @@ public class LevelOne implements Screen {
         this.game=game;
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("maps/littleMap.tmx");
+        tiledRenderer = new OrthogonalTiledMapRenderer(map);
+        map = mapLoader.load("maps/lastMap.tmx");
+
+        tiledRenderer = new OrthogonalTiledMapRenderer(map,0.07f);
+/*
+        BodyDef bodyDef=new BodyDef();
+        PolygonShape shape=new PolygonShape();
+        FixtureDef fixtureDef=new FixtureDef();
+        Body body;
+
+        for(MapObject e: map.getLayers().get(0).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect=((RectangleMapObject)e).getRectangle();
+            bodyDef.type= BodyDef.BodyType.StaticBody;
+            bodyDef.position.set(rect.getX(),rect.getY());
+            body=world.createBody(bodyDef);
+            shape.setAsBox(1,1);
+            fixtureDef.shape=shape;
+            body.createFixture(fixtureDef);
+        }
+
+ */
+
+
         tiledRenderer = new OrthogonalTiledMapRenderer(map, (float) 0.1);
 
 

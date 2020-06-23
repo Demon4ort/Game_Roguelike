@@ -156,13 +156,21 @@ public class Hero extends  GameObject {
 
         addListener(new InputListener(){
             @Override
+            public boolean keyTyped(InputEvent event, char character) {
+                if(character== 'f'){
+                    if(stateTimeAttack==0){
+                        isAttacking=true;
+                    }else isAttacking=false;
+                }
+                return super.keyTyped(event, character);
+            }
+
+            @Override
             public boolean keyDown(InputEvent event, int keycode) {
                // Gdx.app.log("", String.valueOf(body.getMass()));
                 isPressed=true;
                 keyCode=keycode;
-                if(keycode== Input.Keys.F){
-                    isAttacking=true;
-                }
+
 
 
                    // multiKeysDown();
@@ -275,7 +283,6 @@ public class Hero extends  GameObject {
 
             if(keyCode== Input.Keys.F){
                 currentState=State.ATTACK;
-                isAttacking=true;
                 Gdx.app.log(String.valueOf(inAttackingRange), "");
 
                 if(isTurnedRight){
@@ -290,7 +297,7 @@ public class Hero extends  GameObject {
 
                             enemy.getBody().applyLinearImpulse(x*(10),
                                 30,enemy.getBody().getPosition().x,enemy.body.getPosition().y,true);
-                            enemy.setHealth(10);
+                            enemy.setHealth(20);
                             Gdx.app.log(String.valueOf(enemy.getHealth()),"");
                         }catch (NullPointerException e){
                            e.printStackTrace();
