@@ -43,6 +43,7 @@ public class LevelOne implements Screen {
         map = mapLoader.load("maps/littleMap.tmx");
         tiledRenderer = new OrthogonalTiledMapRenderer(map, (float) 0.1);
 
+
     }
 
 
