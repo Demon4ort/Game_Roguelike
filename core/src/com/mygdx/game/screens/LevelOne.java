@@ -64,6 +64,7 @@ public class LevelOne implements Screen {
 
         Ground ground=new Ground(world);
         stage.addActor(ground);
+
         stage.addActor(hero);
         stage.addActor(enemy);
         actors.addAll(ground,enemy,hero);
