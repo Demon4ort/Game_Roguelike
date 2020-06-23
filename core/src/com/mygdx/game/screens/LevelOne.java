@@ -40,6 +40,8 @@ public class LevelOne implements Screen {
     public LevelOne(MainGame game){
         this.game=game;
         mapLoader = new TmxMapLoader();
+        map = mapLoader.load("maps/littleMap.tmx");
+        tiledRenderer = new OrthogonalTiledMapRenderer(map);
         map = mapLoader.load("maps/lastMap.tmx");
 
         tiledRenderer = new OrthogonalTiledMapRenderer(map,0.07f);
@@ -120,14 +122,12 @@ public class LevelOne implements Screen {
         }
 
          */
-        tiledRenderer.render();
         stage.draw();
-        camera.position.set(hero.getCenterX(),hero.getCenterY(),0);
+        camera.position.set(hero.getCenterX(),camera.position.y,0);
         renderer.render(world, camera.combined);
-
         world.step(1/60f, 6,2);
         tiledRenderer.setView(camera);
-
+        tiledRenderer.render();
     }
 
     @Override
