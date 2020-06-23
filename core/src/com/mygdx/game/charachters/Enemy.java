@@ -84,7 +84,7 @@ public class Enemy extends GameObject {
 
 
         //sprite=new Sprite(new Texture("badlogic.jpg"));
-        setBounds(6,8,3f,1.5f);
+        setBounds(6,2,3f,1.5f);
         PolygonShape shape=new PolygonShape();
         shape.setAsBox(1.5f,0.75f);
         bodyDef = new BodyDef();
@@ -95,7 +95,7 @@ public class Enemy extends GameObject {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef).setUserData("Enemy");
-        shape.dispose();
+
         //   createBody(shape, BodyDef.BodyType.DynamicBody,false);
 
         MassData massData = body.getMassData();

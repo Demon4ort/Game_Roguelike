@@ -16,7 +16,6 @@ public class Hero extends  GameObject {
 
     boolean isPressed;
     int keyCode;
-    public final static float ATTACK_RANGE=1.7f;
 
     public enum State{ATTACK, IDLE, JUMP, RUN, HURT, JUMP_CLIMB};
     public State currentState;
@@ -131,7 +130,7 @@ public class Hero extends  GameObject {
         heroAttack=new Animation<TextureRegion>(0.1667f,frames);
 
         //sprite=new Sprite(new Texture("badlogic.jpg"));
-        setBounds(4,8,1,2);
+        setBounds(2,7,1,2);
         CircleShape shape=new CircleShape();
         shape.setRadius(0.5f);
         bodyDef = new BodyDef();
@@ -149,7 +148,7 @@ public class Hero extends  GameObject {
         fixtureDef.shape=shape;
 
         body.createFixture(fixtureDef);
-        shape.dispose();
+
         MassData massData = body.getMassData();
         massData.mass=80;
         body.setMassData(massData);

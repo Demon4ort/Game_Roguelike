@@ -21,7 +21,6 @@ public class Sword extends GameObject {
         body=world.createBody(bodyDef);
         body.createFixture(fixtureDef).setUserData("Sword");
         body.setUserData(this);
-        shape.dispose();
 
     }
     @Override

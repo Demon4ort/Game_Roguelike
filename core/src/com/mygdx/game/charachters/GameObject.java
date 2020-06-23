@@ -1,5 +1,6 @@
 package com.mygdx.game.charachters;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -26,6 +27,7 @@ public abstract class GameObject extends Actor {
     String name="GameObject";
 
     int health;
+    Sprite sprite;
 
     public Body getBody() {
         return body;
@@ -42,12 +44,11 @@ public abstract class GameObject extends Actor {
 
 
 
-    protected void createBody(Shape shape, BodyDef.BodyType type, int density,float restitution, float friction, GameObject object){
+    protected void createBody(Shape shape, BodyDef.BodyType type, int density,float restitution, float friction){
         bodyDef=new BodyDef();
         bodyDef.position.set(getX()+getWidth()/2,getY()+getHeight()/2);
         bodyDef.type=type;
         body=world.createBody(bodyDef);
-        body.setUserData(object);
         FixtureDef fixtureDef=new FixtureDef();
         fixtureDef.shape=shape;
         fixtureDef.restitution=restitution;
