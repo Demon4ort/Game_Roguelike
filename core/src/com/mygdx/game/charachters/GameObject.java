@@ -1,5 +1,6 @@
 package com.mygdx.game.charachters;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -38,6 +39,28 @@ public abstract class GameObject extends Actor {
 
     public GameObject(World world) {
         this.world = world;
+    }
+
+    public Vector2 getPosition00(){
+        Vector2 temp=new Vector2();
+        temp.x=getX();
+        temp.y=getY();
+        return temp;
+    }
+    public Vector2 getPositionCentre(){
+        return body.getPosition();
+    }
+    public Vector2 getPosition0Y(){
+        Vector2 temp=new Vector2();
+        temp.x=getX();
+        temp.y=getY()+getHeight();
+        return temp;
+    }
+    public Vector2 getPositionX0(){
+        Vector2 temp=new Vector2();
+        temp.x=getX()+getWidth();
+        temp.y=getY();
+        return temp;
     }
 
 

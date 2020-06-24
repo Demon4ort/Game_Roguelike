@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.mygdx.game.Coordinator;
 import com.mygdx.game.MainGame;
 import com.mygdx.game.WorldContactListener;
 import com.mygdx.game.charachters.Enemy;
@@ -35,6 +36,7 @@ public class LevelOne implements Screen {
     Box2DDebugRenderer renderer;
     Hero hero;
     WorldContactListener worldContactListener;
+    Coordinator coordinator;
 
     private TmxMapLoader mapLoader;
     private TiledMap map;
@@ -68,6 +70,7 @@ public class LevelOne implements Screen {
 
 
 
+
     }
 
 
@@ -76,12 +79,13 @@ public class LevelOne implements Screen {
     public void show() {
         Box2D.init();
 
+
         stage.setDebugAll(true);
 
         camera.position.set(new Vector2(10,7), 0);
         Array<GameObject> actors=new Array<>();
         Enemy enemy=new Enemy(world);
-        hero =new Hero(world);
+        hero =new Hero(world,null);
 
 
         stage.addActor(hero);
@@ -101,6 +105,10 @@ public class LevelOne implements Screen {
         });
         stage.setKeyboardFocus(hero);
         Gdx.input.setInputProcessor(stage);
+        Array<Enemy> enemyArray=new Array<>();
+        enemyArray.addAll(enemy);
+        coordinator=new Coordinator(world,hero,enemyArray);
+        hero.setCoordinator(coordinator);
     }
 
 

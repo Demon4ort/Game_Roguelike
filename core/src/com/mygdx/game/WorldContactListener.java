@@ -33,9 +33,11 @@ public class WorldContactListener implements ContactListener {
         Gdx.app.log(a.getUserData()+":"+b.getUserData(),"");
         if(a.getUserData()=="Legs"){
             hero= (Hero) a.getBody().getUserData();
+            hero.setCanJump(true);
         }
         if(b.getUserData()=="Legs"){
             hero= (Hero) b.getBody().getUserData();
+            hero.setCanJump(true);
         }
         if(a.getUserData()=="Enemy"){
             enemy= (Enemy) a.getBody().getUserData();
@@ -46,19 +48,14 @@ public class WorldContactListener implements ContactListener {
 
 
 
-
+/*
         if((a.getUserData()=="Legs" &&(((GameObject)b.getBody().getUserData()).getName())=="Ground") || (b.getUserData()=="Legs" && (((GameObject)a.getBody().getUserData()).getName())=="Ground")){
             hero.setCanJump(true);
            // Gdx.app.log("Begin contact", "");
         }
-        if(((a.getUserData()=="Sword" && (((GameObject)b.getBody().getUserData()).getName())=="Enemy") ||
-                (b.getUserData()=="Sword" && (((GameObject)a.getBody().getUserData()).getName())=="Enemy"))){
-            inAttackRange=true;
-            Gdx.app.log("Trying to attack","");
-            hero.setInAttackingRange(inAttackRange);
-            hero.setEnemy(enemy);
 
-        }
+ */
+
     }
 
     @Override
@@ -66,12 +63,6 @@ public class WorldContactListener implements ContactListener {
         //Gdx.app.log("End contact", "");
         Fixture a=contact.getFixtureA();
         Fixture b=contact.getFixtureB();
-        if(((a.getUserData()=="Sword" && (((GameObject)b.getBody().getUserData()).getName())=="Enemy") ||
-                (b.getUserData()=="Sword" && (((GameObject)a.getBody().getUserData()).getName())=="Enemy"))){
-
-            hero.setInAttackingRange(false);
-            hero.setEnemy(null);
-        }
 
     }
 

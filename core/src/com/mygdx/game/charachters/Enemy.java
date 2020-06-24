@@ -43,6 +43,7 @@ public class Enemy extends GameObject {
 
     public Enemy(World world) {
         super(world);
+        Gdx.app.log("Sobaka de?", "HZ");
         name="Enemy";
         health=100;
 
@@ -84,7 +85,7 @@ public class Enemy extends GameObject {
 
 
         //sprite=new Sprite(new Texture("badlogic.jpg"));
-        setBounds(6,8,3f,1.5f);
+        setBounds(9,8,3f,1.5f);
         PolygonShape shape=new PolygonShape();
         shape.setAsBox(1.5f,0.75f);
         bodyDef = new BodyDef();

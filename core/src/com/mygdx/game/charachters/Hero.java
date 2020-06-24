@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.mygdx.game.Coordinator;
 
 public class Hero extends  GameObject {
 
@@ -18,17 +19,28 @@ public class Hero extends  GameObject {
     int keyCode;
     public final static float ATTACK_RANGE=1.7f;
 
-    public enum State{ATTACK, IDLE, JUMP, RUN, HURT, JUMP_CLIMB};
+    public enum State{ATTACK, IDLE, JUMP, RUN, HURT};
     public State currentState;
     private State previousState;
 
-    private boolean isTurnedRight;
-
-    public boolean isAttacking() {
-        return isAttacking;
+    public boolean isTurnedRight() {
+        return isTurnedRight;
     }
 
-    boolean isAttacking;
+    private boolean isTurnedRight;
+
+
+    public boolean isCanAttack() {
+        return canAttack;
+    }
+
+    private boolean canAttack;
+
+    public long getAttackSignal() {
+        return attackSignal;
+    }
+
+    private long attackSignal;
 
     public boolean isInAttackingRange() {
         return inAttackingRange;
@@ -39,6 +51,12 @@ public class Hero extends  GameObject {
     }
 
     boolean inAttackingRange;
+
+    public void setCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
+    }
+
+    Coordinator coordinator;
 
 
 
@@ -65,6 +83,7 @@ public class Hero extends  GameObject {
     private float stateTimeAttack;
 
     private static final int MAX_VX=8;
+    int i=1;
 
     public Sword getSword() {
         return sword;
@@ -82,8 +101,9 @@ public class Hero extends  GameObject {
 
     Enemy enemy;
 
-    public Hero(World world) {
+    public Hero(World world, Coordinator coordinator) {
         super(world);
+        this.coordinator=coordinator;
         name="Hero";
         currentState=State.IDLE;
         currentState=State.IDLE;
@@ -91,6 +111,7 @@ public class Hero extends  GameObject {
         stateTimeAttack=0;
         stateTimeRun=0;
         stateTimeJump=0;
+        attackSignal=0;
 
         isTurnedRight=true;
 
@@ -158,11 +179,6 @@ public class Hero extends  GameObject {
         addListener(new InputListener(){
             @Override
             public boolean keyTyped(InputEvent event, char character) {
-                if(character== 'f'){
-                    if(stateTimeAttack==0){
-                        isAttacking=true;
-                    }else isAttacking=false;
-                }
                 return super.keyTyped(event, character);
             }
 
@@ -184,9 +200,9 @@ public class Hero extends  GameObject {
             public boolean keyUp(InputEvent event, int keycode) {
                 isPressed=false;
                 if(keycode== Input.Keys.F){
-                    isAttacking=false;
-
+                    attackSignal+=1;
                 }
+
                 return super.keyUp(event, keycode);
             }
         });
@@ -195,6 +211,7 @@ public class Hero extends  GameObject {
 
     @Override
     public void act(float delta) {
+       if(currentState==State.ATTACK) coordinator.attack();
         move();
         setPosition(body.getPosition().x-getWidth()/2,body.getPosition().y-getHeight()/2);
         sword.body.setTransform(body.getPosition(),0);
@@ -254,6 +271,10 @@ public class Hero extends  GameObject {
             res.flip(true,false);
             isTurnedRight=true;
         }
+        if(stateTimeAttack==0){
+            canAttack=true;
+            i=0;
+        }
         stateTimeJump = currentState==previousState ? stateTimeJump += dt : 0;
         stateTimeRun = currentState==previousState ? stateTimeRun += dt : 0;
         stateTimeAttack = currentState==previousState ? stateTimeAttack += dt : 0;
@@ -264,6 +285,7 @@ public class Hero extends  GameObject {
 
 
     private void move(){
+
         if(isPressed){
             if(keyCode== Input.Keys.D && body.getLinearVelocity().x<MAX_VX){
                 isTurnedRight=true;
@@ -284,27 +306,13 @@ public class Hero extends  GameObject {
 
             if(keyCode== Input.Keys.F){
                 currentState=State.ATTACK;
-                Gdx.app.log(String.valueOf(inAttackingRange), "");
-
+                canAttack=false;
                 if(isTurnedRight){
                     body.applyLinearImpulse(5,0, getX()+ getWidth()/2,
                             getY()+ getHeight()/2,true);
                 }else body.applyLinearImpulse(-5,0, getX()+ getWidth()/2,
                         getY()+ getHeight()/2,true);
-                if(inAttackingRange){
-                    if(enemy!=null){
-                       try{
-                           int x= (int) (enemy.body.getPosition().x-body.getPosition().x);
 
-                            enemy.getBody().applyLinearImpulse(x*(10),
-                                30,enemy.getBody().getPosition().x,enemy.body.getPosition().y,true);
-                            enemy.setHealth(20);
-                            Gdx.app.log(String.valueOf(enemy.getHealth()),"");
-                        }catch (NullPointerException e){
-                           e.printStackTrace();
-                       }
-                    }else Gdx.app.log("Enemy is null", "");
-                }
             }
 
         }
