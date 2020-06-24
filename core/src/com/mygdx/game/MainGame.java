@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.mygdx.game.screens.LevelOne;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.Menu;
@@ -14,9 +16,14 @@ public class MainGame extends Game {
 	public final static float V_WIDTH=400;
 	public final static float PPM=100;
 
+	private Music music;
 	@Override
 	public void create () {
 		setScreen(new Menu(this));
+		music = Gdx.audio.newMusic(Gdx.files.internal("Sounds/drumlooper.mp3"));
+		music.setLooping(true);
+		music.setVolume(0.1f);
+		music.play();
 
 	}
 
@@ -48,5 +55,14 @@ public class MainGame extends Game {
 		}
 	}
 
+	@Override
+	public void dispose() {
+		super.dispose();
+		music.dispose();
+	}
 
+	@Override
+	public void pause() {
+		super.pause();
+	}
 }

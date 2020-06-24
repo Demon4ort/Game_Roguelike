@@ -2,6 +2,7 @@ package com.mygdx.game.charachters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -14,6 +15,7 @@ import com.mygdx.game.Coordinator;
 
 public class Hero extends  GameObject {
 
+    private Sound attack;
 
     boolean isPressed;
     int keyCode;
@@ -102,6 +104,7 @@ public class Hero extends  GameObject {
     Enemy enemy;
 
     public Hero(World world, Coordinator coordinator) {
+
         super(world);
         this.coordinator=coordinator;
         name="Hero";
@@ -114,6 +117,7 @@ public class Hero extends  GameObject {
         attackSignal=0;
 
         isTurnedRight=true;
+        attack = Gdx.audio.newSound(Gdx.files.internal("Sounds/attack.mp3"));
 
 
         sheets[0]=new Texture("IO/Input/Game/Hero/gothic-hero-idle.png");
@@ -284,9 +288,11 @@ public class Hero extends  GameObject {
     }
 
 
+
     private void move(){
 
         if(isPressed){
+
             if(keyCode== Input.Keys.D && body.getLinearVelocity().x<MAX_VX){
                 isTurnedRight=true;
                 body.applyForceToCenter(800,0,true);
@@ -307,6 +313,7 @@ public class Hero extends  GameObject {
             if(keyCode== Input.Keys.F){
                 currentState=State.ATTACK;
                 canAttack=false;
+                attack.play();
                 if(isTurnedRight){
                     body.applyLinearImpulse(5,0, getX()+ getWidth()/2,
                             getY()+ getHeight()/2,true);
@@ -317,6 +324,8 @@ public class Hero extends  GameObject {
 
         }
     }
+
+
 
     public float getCenterX(){
         return body.getPosition().x;
