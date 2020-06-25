@@ -27,6 +27,7 @@ import com.mygdx.game.charachters.*;
 
 public class LevelOne implements Screen {
 
+    public boolean openMenu;
     World world;
     MainGame game;
     private OrthographicCamera camera;
@@ -43,6 +44,7 @@ public class LevelOne implements Screen {
     private OrthogonalTiledMapRenderer tiledRenderer;
 
     public LevelOne(MainGame game){
+        openMenu = false;
         this.game=game;
         music=Gdx.audio.newMusic(Gdx.files.internal("Sounds/drumlooper.mp3"));
         mapLoader = new TmxMapLoader();
@@ -90,7 +92,7 @@ public class LevelOne implements Screen {
         Array<GameObject> actors=new Array<>();
         Hound enemy=new Hound(world, 9, 8);
         Demon demon=new Demon(world, 10,25);
-        hero =new Hero(world,null);
+        hero =new Hero(world,null, this);
 
         stage.addActor(demon);
         stage.addActor(hero);
@@ -128,6 +130,9 @@ public class LevelOne implements Screen {
         camera.position.set(hero.getCenterX(),hero.getCenterY(),0);
         renderer.render(world, camera.combined);
         world.step(1/60f, 6,2);
+        if(openMenu){
+            pause();
+        }
 
     }
 
@@ -138,6 +143,7 @@ public class LevelOne implements Screen {
 
     @Override
     public void pause() {
+        game.changeScreen("pauseMenu");
 
     }
 
