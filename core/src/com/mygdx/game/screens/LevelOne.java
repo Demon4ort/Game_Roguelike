@@ -114,6 +114,7 @@ public class LevelOne implements Screen {
         enemyArray.addAll(enemy,demon);
         coordinator=new Coordinator(world,hero,enemyArray);
         hero.setCoordinator(coordinator);
+        //test for mark
     }
 
 
@@ -153,6 +154,6 @@ public class LevelOne implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

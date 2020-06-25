@@ -44,15 +44,6 @@ public class Hero extends  GameObject {
 
     private long attackSignal;
 
-    public boolean isInAttackingRange() {
-        return inAttackingRange;
-    }
-
-    public void setInAttackingRange(boolean inAttackingRange) {
-        this.inAttackingRange = inAttackingRange;
-    }
-
-    boolean inAttackingRange;
 
     public void setCoordinator(Coordinator coordinator) {
         this.coordinator = coordinator;

@@ -10,6 +10,8 @@ public abstract class NotPlayerCharachter extends GameObject {
     protected State currentState;
     protected State previousState;
 
+
+
     public boolean isTurnedRight() {
         return isTurnedRight;
     }

@@ -47,6 +47,8 @@ public class MainGame extends Game {
 				if(level==null){
 					level=new LevelOne(this);
 					this.setScreen(level);
+				}else{
+					this.setScreen(level);
 				}
 				break;
 			case "end":
