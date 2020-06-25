@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.mygdx.game.screens.EndScreen;
 import com.mygdx.game.screens.LevelOne;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.Menu;
@@ -10,8 +11,14 @@ import com.mygdx.game.screens.Menu;
 public class MainGame extends Game {
 
 	Menu menu;
+
+	public void setLevel(LevelOne level) {
+		this.level = level;
+	}
+
 	private LevelOne level;
 	private LoadingScreen loading;
+	private EndScreen endScreen;
 	public final static float V_HEIGHT=208;
 	public final static float V_WIDTH=400;
 	public final static float PPM=100;
@@ -52,7 +59,10 @@ public class MainGame extends Game {
 				}
 				break;
 			case "end":
-
+				if(endScreen==null){
+					endScreen=new EndScreen(this);
+					this.setScreen(endScreen);
+				}
 				break;
 		}
 	}

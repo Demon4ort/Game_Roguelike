@@ -49,6 +49,7 @@ public class WorldContactListener implements ContactListener {
 
                 }else if(non.getItClass()=="Demon"){
                     Demon demon=(Demon)non;
+
                 }
             }
         }

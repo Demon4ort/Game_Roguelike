@@ -10,6 +10,9 @@ public abstract class NotPlayerCharachter extends GameObject {
     protected State currentState;
     protected State previousState;
 
+    private int passport;
+    private static int number;
+
 
 
     public boolean isTurnedRight() {
@@ -55,6 +58,8 @@ public abstract class NotPlayerCharachter extends GameObject {
     public static final int MAX_VX=8;
     public NotPlayerCharachter(World world,float x, float y, float width, float height) {
         super(world);
+        number++;
+        passport=number;
         setBounds(x,y,width,height);
         health=100;
 
@@ -68,6 +73,12 @@ public abstract class NotPlayerCharachter extends GameObject {
         isTurnedRight=true;
 
 
+    }
+    @Override
+    public boolean equals(Object object ){
+        NotPlayerCharachter notPlayerCharachter = this;
+        NotPlayerCharachter b=(NotPlayerCharachter)object;
+        return this.passport==b.passport;
     }
 
 

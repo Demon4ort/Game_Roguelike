@@ -6,15 +6,21 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.Coordinator;
 
 public class Hound extends NotPlayerCharachter implements Enemy {
+    public void setCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
+    }
+
+    Coordinator coordinator;
 
     public Hound(World world, float x, float y) {
         //x - 9 , y - 8
         super(world, x, y, 3, 1.5f );
         Gdx.app.log("Sobaka de?", "HZ");
         itClass="Hound";
-
+        health=20;
 
         sheets[0]=new Texture("IO/Input/Game/HellHound/hell-hound-idle1.png");
         sheets[1]=new Texture("IO/Input/Game/HellHound/hell-hound-jump1.png");
@@ -71,6 +77,9 @@ public class Hound extends NotPlayerCharachter implements Enemy {
         setPosition(body.getPosition().x-getWidth()/2,body.getPosition().y-getHeight()/2);
         if(health<=0){
             body.setActive(false);
+
+            dispose();
+
         }
     }
 
@@ -101,6 +110,8 @@ public class Hound extends NotPlayerCharachter implements Enemy {
 
         */
     }
+
+
     private TextureRegion getFrame(float dt){
         TextureRegion res;
 

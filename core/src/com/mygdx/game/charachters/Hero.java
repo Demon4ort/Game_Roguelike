@@ -21,6 +21,16 @@ public class Hero extends  GameObject {
     int keyCode;
     public final static float ATTACK_RANGE=1.7f;
 
+    public int getKillCount() {
+        return killCount;
+    }
+
+    private int killCount;
+
+    public void plusKill() {
+        killCount++;
+    }
+
     public enum State{ATTACK, IDLE, JUMP, RUN, HURT};
     public State currentState;
     private State previousState;
@@ -50,6 +60,7 @@ public class Hero extends  GameObject {
     }
 
     Coordinator coordinator;
+
 
 
 

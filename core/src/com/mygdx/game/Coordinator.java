@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.charachters.Hero;
 import com.mygdx.game.charachters.NotPlayerCharachter;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 
@@ -14,14 +15,22 @@ public class Coordinator {
 
    private World world;
    private Hero hero;
-   private Array<NotPlayerCharachter> enemyArray;
+
+    public Array<NotPlayerCharachter> getEnemyArray() {
+        return enemyArray;
+    }
+
+    private ArrayList<NotPlayerCharachter> houndArray;
+    private Array<NotPlayerCharachter> enemyArray;
    public boolean attackSignal;
+   private NotPlayerCharachter enemy;
 
 
-    public Coordinator(World world, Hero hero, Array<NotPlayerCharachter> enemyArray) {
+    public Coordinator(World world, Hero hero, Array<NotPlayerCharachter> enemyArray, ArrayList<NotPlayerCharachter> houndArray) {
         this.world = world;
         this.hero = hero;
         this.enemyArray = enemyArray;
+        this.houndArray=houndArray;
     }
     public void attack() {
        if(true){
@@ -68,4 +77,11 @@ public class Coordinator {
         }
     }
 
+    public void deathSignal(NotPlayerCharachter enemy) {
+        this.enemy=enemy;
+        int i=enemyArray.indexOf(enemy, false);
+        enemyArray.removeValue(enemy,true);
+        Gdx.app.log("Number", String.valueOf(enemyArray.first().getId()));
+        hero.plusKill();
+    }
 }

@@ -3,6 +3,7 @@ package com.mygdx.game.charachters;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 
 public abstract class GameObject extends Actor {
 
@@ -79,6 +80,13 @@ public abstract class GameObject extends Actor {
         temp.x=body.getPosition().x+bodyWidth/2;
         temp.y=getY();
         return temp;
+    }
+    public void dispose(){
+        Array<Fixture> list = body.getFixtureList();
+        for(Fixture a:list){
+            body.destroyFixture(a);
+        }
+
     }
 
 
