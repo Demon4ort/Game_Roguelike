@@ -104,7 +104,8 @@ public class LevelOne implements Screen {
         //stage.addActor(demon);
         stage.addActor(hero);
         actors.addAll(hero);
-        worldContactListener=new WorldContactListener(actors);
+        coordinator=new Coordinator(world,hero,enemyArray,houndArray );
+        worldContactListener=new WorldContactListener(actors, coordinator);
 
         world.setContactListener(worldContactListener);
 
@@ -120,7 +121,7 @@ public class LevelOne implements Screen {
         stage.setKeyboardFocus(hero);
         Gdx.input.setInputProcessor(stage);
 
-        coordinator=new Coordinator(world,hero,enemyArray,houndArray );
+
         hero.setCoordinator(coordinator);
         for(Hound e:hounds){
             e.setCoordinator(coordinator);
@@ -139,6 +140,7 @@ public class LevelOne implements Screen {
     public void show() {
         Box2D.init();
         music.play();
+        Gdx.input.setInputProcessor(stage);
         //test for mark
     }
 
@@ -162,12 +164,15 @@ public class LevelOne implements Screen {
         if(hero.getKillCount()==enemyNumber){
             dispose();
         }
+        if(hero.getHealth()<=0){
+            game.changeScreen("lose");
+        }
 
     }
 
     @Override
     public void resize(int width, int height) {
-        Gdx.input.setInputProcessor(stage);
+
     }
 
     @Override

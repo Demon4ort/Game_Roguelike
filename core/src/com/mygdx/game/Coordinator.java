@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.charachters.Hero;
+import com.mygdx.game.charachters.Hound;
 import com.mygdx.game.charachters.NotPlayerCharachter;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class Coordinator {
         return enemyArray;
     }
 
-    private ArrayList<NotPlayerCharachter> houndArray;
     private Array<NotPlayerCharachter> enemyArray;
    public boolean attackSignal;
    private NotPlayerCharachter enemy;
@@ -30,9 +30,61 @@ public class Coordinator {
         this.world = world;
         this.hero = hero;
         this.enemyArray = enemyArray;
-        this.houndArray=houndArray;
     }
-    public void attack() {
+
+
+    public void chase(Hound enemy) {
+        if (hero.getPosition0Y().y < enemy.getPosition00().y || hero.getPosition00().y > enemy.getPosition0Y().y) {
+            enemy.setAimFound(false);
+        }
+        float d = enemy.getPositionCentre().x - hero.getCenterX();
+        enemy.setState(Hound.State.JUMP);
+            enemy.setCanJump(false);
+                if (d > 0) {
+
+                    enemy.setTurnedRight(true);
+                    if (enemy.isCanAttack()) {
+                        enemy.getBody().applyLinearImpulse(new Vector2(-400, 100), enemy.getBody().getPosition(), true);
+                    }
+                } else {
+                    enemy.setTurnedRight(false);
+                    if (enemy.isCanAttack()) {
+
+                        enemy.getBody().applyLinearImpulse(new Vector2(400, 100), enemy.getBody().getPosition(), true);
+                    }
+                }
+
+
+        }
+
+
+    public void playerDetected(NotPlayerCharachter monster){
+       // Gdx.app.log("Coordinator", "Player detected");
+        Hound enemy=(Hound)monster;
+        enemy.setAimFound(true);
+        chase(enemy);
+       // float d= enemy.getPositionCentre().x-hero.getCenterX();
+        //enemy.setState(Hound.State.JUMP);
+        /*if(d>0){
+            enemy.setTurnedRight(true);
+            if(enemy.isCanAttack()){
+
+                enemy.getBody().applyLinearImpulse(new Vector2(-400, 200), enemy.getBody().getPosition(), true);
+            }
+        }else{
+            enemy.setTurnedRight(true);
+
+            if(enemy.isCanAttack()){
+
+                enemy.getBody().applyLinearImpulse(new Vector2(400, 200), enemy.getBody().getPosition(), true);
+            }
+        }
+
+         */
+    }
+
+
+    public void heroAttack() {
        if(true){
             LinkedList<Integer> list = new LinkedList<>();
             int i = 0;

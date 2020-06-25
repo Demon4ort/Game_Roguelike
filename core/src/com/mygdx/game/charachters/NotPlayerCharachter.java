@@ -19,6 +19,10 @@ public abstract class NotPlayerCharachter extends GameObject {
         return isTurnedRight;
     }
 
+    public void setTurnedRight(boolean turnedRight) {
+        isTurnedRight = turnedRight;
+    }
+
     protected boolean isTurnedRight;
 
     public String getItClass() {
@@ -34,6 +38,10 @@ public abstract class NotPlayerCharachter extends GameObject {
 
     public void setCanJump(boolean canJump) {
         this.canJump = canJump;
+    }
+
+    public boolean isCanJump() {
+        return canJump;
     }
 
     protected boolean canJump;
@@ -70,7 +78,7 @@ public abstract class NotPlayerCharachter extends GameObject {
         stateTimeRun=0;
         stateTimeJump=0;
 
-        isTurnedRight=true;
+        isTurnedRight=false;
 
 
     }

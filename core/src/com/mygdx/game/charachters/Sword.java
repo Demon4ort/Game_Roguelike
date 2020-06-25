@@ -14,21 +14,25 @@ public class Sword extends GameObject {
     NotPlayerCharachter enemy;
 
 
-    public Sword(World world, float x, float y, float width, float height,NotPlayerCharachter enemy ) {
+    public Sword(World world, float x, float y, float width, float height,NotPlayerCharachter enemy, String size ) {
         super(world);
         this.enemy=enemy;
         setBounds(x,y,width, height);
         PolygonShape shape=new PolygonShape();
-        shape.setAsBox(1.7f,1);
+        shape.setAsBox(width/2,height/2);
         BodyDef bodyDef=new BodyDef();
         bodyDef.type= BodyDef.BodyType.KinematicBody;
         FixtureDef fixtureDef=new FixtureDef();
         fixtureDef.shape=shape;
         fixtureDef.isSensor=true;
         body=world.createBody(bodyDef);
-        body.createFixture(fixtureDef).setUserData("Sword");
+        body.createFixture(fixtureDef).setUserData(size);
         body.setUserData(this);
         shape.dispose();
+
+    }
+
+    public void setUserData(){
 
     }
     @Override

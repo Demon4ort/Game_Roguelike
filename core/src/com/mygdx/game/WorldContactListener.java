@@ -10,8 +10,10 @@ public class WorldContactListener implements ContactListener {
     Hero hero;
     NotPlayerCharachter enemy;
     Sword sword;
+    Coordinator coordinator;
 
-    public WorldContactListener(Array<GameObject> actors) {
+    public WorldContactListener(Array<GameObject> actors, Coordinator coordinator) {
+        this.coordinator=coordinator;
     }
 
     @Override
@@ -19,17 +21,11 @@ public class WorldContactListener implements ContactListener {
 
         Fixture a=contact.getFixtureA();
         Fixture b=contact.getFixtureB();
-        Gdx.app.log(a.getUserData()+":"+b.getUserData(),"");
-        if(a.getUserData()=="Legs"){
-            hero= (Hero) a.getBody().getUserData();
-            Gdx.app.log("Hero", String.valueOf(hero.getX()));
-            Gdx.app.log("Hero", String.valueOf(hero.getY()));
-            hero.setCanJump(true);
-        }
+        //Gdx.app.log(a.getUserData()+":"+b.getUserData(),"");
         if(b.getUserData()=="Legs"){
             hero= (Hero) b.getBody().getUserData();
-            Gdx.app.log("Hero", String.valueOf(hero.getX()));
-            Gdx.app.log("Hero", String.valueOf(hero.getY()));
+          //  Gdx.app.log("Hero", String.valueOf(hero.getX()));
+       //     Gdx.app.log("Hero", String.valueOf(hero.getY()));
             hero.setCanJump(true);
         }
         if(a.getUserData()=="Enemy"){
@@ -38,21 +34,58 @@ public class WorldContactListener implements ContactListener {
         if(b.getUserData()=="Enemy"){
             enemy= (NotPlayerCharachter) b.getBody().getUserData();
         }
-
-        if(a.getUserData()=="Sword"){
-            sword=(Sword)a.getBody().getUserData();
+        if(a.getUserData()=="Ground"){
             if(b.getUserData()=="Enemy"){
-                NotPlayerCharachter non=sword.getEnemy();
-                if(non.getItClass()=="Hound"){
-                    Hound hound=(Hound)non;
-
-                }else if(non.getItClass()=="Demon"){
-                    Demon demon=(Demon)non;
-
+                enemy=(NotPlayerCharachter)b.getBody().getUserData();
+                enemy.setCanJump(true);
+            }
+        }
+        if(b.getUserData()=="Ground"){
+            if(a.getUserData()=="Enemy"){
+                enemy=(NotPlayerCharachter)a.getBody().getUserData();
+                enemy.setCanJump(true);
+            }
+        }
+        if(a.getUserData()=="Enemy"){
+            if(b.getUserData()=="Body"){
+                enemy=(NotPlayerCharachter)a.getBody().getUserData();
+                hero=(Hero) b.getBody().getUserData();
+                if(true ){
+                    if(!hero.isAttacking()){
+                        hero.setHealth(10);
+                        Gdx.app.log("CONTACT", String.valueOf(hero.getHealth()));
+                    }
                 }
             }
         }
-        if(a.getUserData()=="Sword"){
+        if(b.getUserData()=="Enemy"){
+            if(a.getUserData()=="Body"){
+                enemy=(NotPlayerCharachter)b.getBody().getUserData();
+                hero=(Hero) a.getBody().getUserData();
+                if(true){
+                    if(!hero.isAttacking()){
+                        hero.setState(Hero.State.HURT);
+                        hero.setHealth(10);
+                        Gdx.app.log("CONTACT", String.valueOf(hero.getHealth()));
+                    }
+                }
+            }
+        }
+
+
+        if(a.getUserData()=="Long"){
+            sword=(Sword)a.getBody().getUserData();
+            if(b.getUserData()=="Body"){
+                coordinator.playerDetected(sword.getEnemy());
+            }
+        }
+        if(b.getUserData()=="Long"){
+            sword=(Sword)b.getBody().getUserData();
+            if(a.getUserData()=="Body"){
+                coordinator.playerDetected(sword.getEnemy());
+            }
+        }
+        if(a.getUserData()=="Short"){
             sword=(Sword)a.getBody().getUserData();
         }
 
@@ -75,6 +108,19 @@ public class WorldContactListener implements ContactListener {
         //Gdx.app.log("End contact", "");
         Fixture a=contact.getFixtureA();
         Fixture b=contact.getFixtureB();
+       // Gdx.app.log("End contact", a.getUserData()+"+"+b.getUserData());
+        if(a.getUserData()=="Long"){
+            sword=(Sword)a.getBody().getUserData();
+            if(b.getUserData()=="Body"){
+                coordinator.chase((Hound) sword.getEnemy());
+            }
+        }
+        if(b.getUserData()=="Long"){
+            sword=(Sword)b.getBody().getUserData();
+            if(a.getUserData()=="Body"){
+                coordinator.chase((Hound) sword.getEnemy());
+            }
+        }
 
     }
 

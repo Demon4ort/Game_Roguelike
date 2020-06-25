@@ -24,6 +24,8 @@ public class Hero extends  GameObject {
     boolean isPressed;
     int keyCode;
     public final static float ATTACK_RANGE=1.7f;
+    private boolean blocking;
+    private boolean attacking;
 
     public int getKillCount() {
         return killCount;
@@ -34,6 +36,26 @@ public class Hero extends  GameObject {
     public void plusKill() {
         killCount++;
         Gdx.app.log("Kills", String.valueOf(killCount));
+    }
+
+    public boolean isBlocking() {
+        return blocking;
+    }
+
+    public void setBlocking(boolean blocking) {
+        this.blocking = blocking;
+    }
+
+    public boolean isAttacking() {
+        return attacking;
+    }
+
+    public void setAttacking(boolean attacking) {
+        this.attacking = attacking;
+    }
+
+    public void setState(State state) {
+        currentState=state;
     }
 
     public enum State{ATTACK, IDLE, JUMP, RUN, HURT};
@@ -75,7 +97,7 @@ public class Hero extends  GameObject {
 
     private boolean canJump;
 
-    Texture[] sheets=new Texture[4];
+    Texture[] sheets=new Texture[5];
     //idle - 0
     //run - 1
     //jump - 2
@@ -85,11 +107,13 @@ public class Hero extends  GameObject {
     private Animation<TextureRegion> heroRun;
     private Animation<TextureRegion> heroJump;
     private Animation<TextureRegion> heroAttack;
+    private Animation<TextureRegion> heroHurt;
 
     private float stateTime;
     private float stateTimeRun;
     private float stateTimeJump;
     private float stateTimeAttack;
+    private float stateTimeHurt;
 
     private static final int MAX_VX=8;
     int i=1;
@@ -110,6 +134,7 @@ public class Hero extends  GameObject {
 
 
         super(world);
+        health=100;
         this.coordinator=coordinator;
         this.levelOne = levelOne;
         id ="Hero";
@@ -129,6 +154,7 @@ public class Hero extends  GameObject {
         sheets[1]=new Texture("IO/Input/Game/Hero/gothic-hero-run.png");
         sheets[2]=new Texture("IO/Input/Game/Hero/gothic-hero-jump.png");
         sheets[3]=new Texture("IO/Input/Game/Hero/gothic-hero-attack.png");
+        sheets[4]=new Texture("IO/Input/Game/Hero/gothic-hero-hurt.png");
 
         TextureRegion[][] sheet=TextureRegion.split(sheets[0], sheets[0].getWidth()/4, sheets[0].getHeight());
         TextureRegion[] frames = new TextureRegion[4];
@@ -160,6 +186,13 @@ public class Hero extends  GameObject {
         }
         heroAttack=new Animation<TextureRegion>(0.1667f,frames);
 
+        sheet=TextureRegion.split(sheets[4], sheets[4].getWidth()/3,sheets[4].getHeight());
+        frames=new TextureRegion[3];
+        for(int i = 0;i<3;i++){
+            frames[i]=sheet[0][i];
+        }
+        heroHurt=new Animation<TextureRegion>((0.33333333f),frames);
+
         //sprite=new Sprite(new Texture("badlogic.jpg"));
         setBounds(4,8,1,2);
         CircleShape shape=new CircleShape();
@@ -178,10 +211,10 @@ public class Hero extends  GameObject {
         shape.setPosition(new Vector2(0,0.5f));
         fixtureDef.shape=shape;
 
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef).setUserData("Body");
         shape.dispose();
         MassData massData = body.getMassData();
-        massData.mass=40;
+        massData.mass=80;
         body.setMassData(massData);
 
 
@@ -198,13 +231,17 @@ public class Hero extends  GameObject {
                 keyCode=keycode;
                 if(keycode== Input.Keys.F){
                     attack.play(0.2f);
+                    attacking=true;
+
                 }
-                if(keycode==Input.Keys.SPACE){
+                /*if(keycode==Input.Keys.SPACE){
                     body.applyLinearImpulse(new Vector2(400, 300), body.getPosition(), true);
                 }
                 if(keycode==Input.Keys.V){
                     body.applyLinearImpulse(new Vector2(200, 200), body.getPosition(), true);
                 }
+
+                 */
 
 
                    // multiKeysDown();
@@ -218,6 +255,7 @@ public class Hero extends  GameObject {
                 isPressed=false;
                 if(keycode== Input.Keys.F){
                     attackSignal+=1;
+                    attacking=false;
                 }
 
 
@@ -229,7 +267,7 @@ public class Hero extends  GameObject {
 
     @Override
     public void act(float delta) {
-       if(currentState==State.ATTACK) coordinator.attack();
+       if(currentState==State.ATTACK) coordinator.heroAttack();
         move();
         setPosition(body.getPosition().x-getWidth()/2,body.getPosition().y-getHeight()/2);
     }
@@ -252,6 +290,8 @@ public class Hero extends  GameObject {
             case RUN:
                 batch.draw(currentFrame, getX()-(getWidth()*0.75f),getY(),getWidth()*2.5f, getHeight()*1.5f);
                 break;
+            case HURT:
+                batch.draw(currentFrame, getX()-(getWidth()*0.75f),getY(),getWidth()*2.5f, getHeight()*1.5f);
             case IDLE:
                 batch.draw(currentFrame, getX(),getY(),getWidth()*1.5f, getHeight()*1.5f);
                 break;
@@ -272,6 +312,9 @@ public class Hero extends  GameObject {
             case RUN:
                // stateTimeRun += dt;
                 res=heroRun.getKeyFrame(stateTimeRun,true);
+                break;
+            case HURT:
+                res=heroHurt.getKeyFrame(stateTimeHurt);
                 break;
             case IDLE:
             default:
@@ -295,6 +338,7 @@ public class Hero extends  GameObject {
         stateTimeJump = currentState==previousState ? stateTimeJump += dt : 0;
         stateTimeRun = currentState==previousState ? stateTimeRun += dt : 0;
         stateTimeAttack = currentState==previousState ? stateTimeAttack += dt : 0;
+        stateTimeHurt= currentState==previousState ? stateTimeHurt += dt : 0;
         stateTime = currentState==previousState ? stateTime += dt : 0;
         previousState=currentState;
         return res;

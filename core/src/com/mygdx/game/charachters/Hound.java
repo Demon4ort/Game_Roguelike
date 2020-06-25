@@ -17,12 +17,35 @@ public class Hound extends NotPlayerCharachter implements Enemy {
     Sword swordLong;
     Sword swordShort;
 
+    public boolean isAimFound() {
+        return aimFound;
+    }
+
+    public void setAimFound(boolean aimFound) {
+        this.aimFound = aimFound;
+    }
+
+    private boolean aimFound;
+
+    public boolean isCanAttack() {
+        return canAttack;
+    }
+
+    boolean canAttack;
+
+    public Coordinator getCoordinator() {
+        return coordinator;
+    }
+
     public Hound(World world, float x, float y) {
         //x - 9 , y - 8
         super(world, x, y, 3, 1.5f );
         Gdx.app.log("Sobaka de?", "HZ");
         itClass="Hound";
-        health=20;
+        health=60;
+        canAttack=true;
+        canJump=true;
+        aimFound=false;
 
         sheets[0]=new Texture("IO/Input/Game/HellHound/hell-hound-idle1.png");
         sheets[1]=new Texture("IO/Input/Game/HellHound/hell-hound-jump1.png");
@@ -65,8 +88,8 @@ public class Hound extends NotPlayerCharachter implements Enemy {
         body.createFixture(fixtureDef).setUserData("Enemy");
         shape.dispose();
 
-        swordLong=new Sword(world, body.getPosition().x, body.getPosition().y,15, getHeight(), this);
-        swordShort=new Sword(world, body.getPosition().x, body.getPosition().y,5, getHeight(), this);
+        swordLong=new Sword(world, body.getPosition().x, body.getPosition().y,15, getHeight(), this, "Long");
+        swordShort=new Sword(world, body.getPosition().x, body.getPosition().y,5, getHeight(), this, "Short");
 
         MassData massData = body.getMassData();
         massData.mass=40;
@@ -84,6 +107,9 @@ public class Hound extends NotPlayerCharachter implements Enemy {
         swordLong.getBody().setTransform(body.getPosition(),0);
         swordShort.act(delta);
         swordLong.act(delta);
+        if(aimFound){
+            coordinator.chase(this);
+        }
         if(health<=0){
             body.setActive(false);
             dispose();
@@ -141,20 +167,28 @@ public class Hound extends NotPlayerCharachter implements Enemy {
                 res=idle.getKeyFrame(stateTime,true);
                 break;
         }
-        //body.getLinearVelocity().x < 0 ||
-        if(( !isTurnedRight) && !res.isFlipX()){
-            res.flip(true,false);
-            isTurnedRight=false;
-            //body.getLinearVelocity().x > 0 ||
-        } else if(( isTurnedRight) && res.isFlipX()){
+        //
+        if(body.getLinearVelocity().x < 0 ||( isTurnedRight) && res.isFlipX()){
             res.flip(true,false);
             isTurnedRight=true;
+            //body.getLinearVelocity().x > 0 ||
+        } else if(body.getLinearVelocity().x > 0 ||( !isTurnedRight) && !res.isFlipX()){
+            res.flip(true,false);
+            isTurnedRight=false;
         }
         stateTimeJump = currentState==previousState ? stateTimeJump += dt : 0;
         stateTimeRun = currentState==previousState ? stateTimeRun += dt : 0;
         stateTimeAttack = currentState==previousState ? stateTimeAttack += dt : 0;
         stateTime = currentState==previousState ? stateTime += dt : 0;
         previousState=currentState;
+        if(stateTimeJump>=1 ){
+           // Gdx.app.log("Hound", "canAttack=true");
+            canAttack=true;
+            currentState=State.IDLE;
+        }else if(currentState!=State.IDLE){
+           // Gdx.app.log("Hound", "canAttack=false");
+            canAttack=false;
+        }
         return res;
     }
 
@@ -171,12 +205,7 @@ public class Hound extends NotPlayerCharachter implements Enemy {
                 body.applyForceToCenter(-800,0,true);
                 currentState=State.RUN;
             }
-            if(true && canJump){
-                currentState=State.JUMP;
-                canJump=false;
-                body.applyLinearImpulse(0,700, getX()+ getWidth()/2,
-                        getY()+ getHeight()/2,true);
-            }
+
 
             if(false){
                 currentState=State.ATTACK;
@@ -189,5 +218,10 @@ public class Hound extends NotPlayerCharachter implements Enemy {
             }
 
         }
+    }
+
+
+    public void setState(Hound.State state) {
+        currentState=state;
     }
 }

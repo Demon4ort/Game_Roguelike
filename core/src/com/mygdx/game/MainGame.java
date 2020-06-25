@@ -8,6 +8,7 @@ import com.mygdx.game.screens.*;
 public class MainGame extends Game {
 
 	Menu menu;
+	private LoseScreen loseScreen;
 
 	public void setLevel(LevelOne level) {
 		this.level = level;
@@ -68,6 +69,11 @@ public class MainGame extends Game {
 				}else{
 					this.setScreen(pauseMenu);
 				}
+				break;
+			case "lose":
+				if(loseScreen==null){
+					loseScreen=new LoseScreen(this);
+				}else this.setScreen(loseScreen);
 				break;
 			case "end":
 				if(endScreen==null){

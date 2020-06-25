@@ -103,7 +103,7 @@ public abstract class GameObject extends Actor {
         fixtureDef.density=density;
         fixtureDef.friction=friction;
 
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef).setUserData("Ground");
     }
     protected void createBody(Shape shape, BodyDef.BodyType type, boolean isSensor) {
         bodyDef = new BodyDef();
