@@ -33,6 +33,7 @@ public class Sword extends GameObject {
     }
     @Override
     public void act(float delta) {
+
         setPosition(body.getPosition().x-getWidth()/2,body.getPosition().y-getHeight()/2);
     }
 

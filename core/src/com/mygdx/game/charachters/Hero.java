@@ -181,7 +181,7 @@ public class Hero extends  GameObject {
         body.createFixture(fixtureDef);
         shape.dispose();
         MassData massData = body.getMassData();
-        massData.mass=80;
+        massData.mass=40;
         body.setMassData(massData);
 
 
@@ -199,7 +199,12 @@ public class Hero extends  GameObject {
                 if(keycode== Input.Keys.F){
                     attack.play(0.2f);
                 }
-
+                if(keycode==Input.Keys.SPACE){
+                    body.applyLinearImpulse(new Vector2(400, 300), body.getPosition(), true);
+                }
+                if(keycode==Input.Keys.V){
+                    body.applyLinearImpulse(new Vector2(200, 200), body.getPosition(), true);
+                }
 
 
                    // multiKeysDown();
@@ -214,9 +219,7 @@ public class Hero extends  GameObject {
                 if(keycode== Input.Keys.F){
                     attackSignal+=1;
                 }
-                if (keycode == Input.Keys.ESCAPE){
-                   // levelOne.openMenu = true;
-                }
+
 
                 return super.keyUp(event, keycode);
             }

@@ -45,7 +45,7 @@ public class EndScreen implements Screen {
         Label victory=new Label("VICTORY!",skin);
         TextButton play=new TextButton("PLAY",skin);
         TextButton exit = new TextButton("EXIT", skin);
-        table.right().add(victory).fillX().uniformX();
+        table.add(victory).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
         table.add(play).fillX().uniformX();
         table.row();

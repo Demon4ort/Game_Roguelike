@@ -22,10 +22,14 @@ public class WorldContactListener implements ContactListener {
         Gdx.app.log(a.getUserData()+":"+b.getUserData(),"");
         if(a.getUserData()=="Legs"){
             hero= (Hero) a.getBody().getUserData();
+            Gdx.app.log("Hero", String.valueOf(hero.getX()));
+            Gdx.app.log("Hero", String.valueOf(hero.getY()));
             hero.setCanJump(true);
         }
         if(b.getUserData()=="Legs"){
             hero= (Hero) b.getBody().getUserData();
+            Gdx.app.log("Hero", String.valueOf(hero.getX()));
+            Gdx.app.log("Hero", String.valueOf(hero.getY()));
             hero.setCanJump(true);
         }
         if(a.getUserData()=="Enemy"){

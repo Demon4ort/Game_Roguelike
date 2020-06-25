@@ -31,7 +31,7 @@ public abstract class GameObject extends Actor {
         return body;
     }
 
-    Body body;
+    protected Body body;
     BodyDef bodyDef;
     private World world;
 

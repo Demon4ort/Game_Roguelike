@@ -1,6 +1,7 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -78,20 +79,6 @@ public class LevelOne implements Screen {
             music.setVolume(0.1f);
             music.play();
         }
-
-
-
-
-
-
-    }
-
-
-
-    @Override
-    public void show() {
-        Box2D.init();
-
         houndArray=new ArrayList<>();
         stage.setDebugAll(true);
 
@@ -99,7 +86,7 @@ public class LevelOne implements Screen {
         actors=new Array<>();
         int[] x={3,21,20,4,47,48};
         int[] y={22,21,27,26, 28, 18};
-        Hound enemy=new Hound(world, 9, 8);
+        Hound enemy;
         Array<Hound> hounds=new Array<>();
         enemyArray=new Array<>();
         for(int i=0;i<x.length;i++){
@@ -116,7 +103,6 @@ public class LevelOne implements Screen {
 
         //stage.addActor(demon);
         stage.addActor(hero);
-        stage.addActor(enemy);
         actors.addAll(hero);
         worldContactListener=new WorldContactListener(actors);
 
@@ -139,6 +125,20 @@ public class LevelOne implements Screen {
         for(Hound e:hounds){
             e.setCoordinator(coordinator);
         }
+
+
+
+
+
+
+    }
+
+
+
+    @Override
+    public void show() {
+        Box2D.init();
+        music.play();
         //test for mark
     }
 
@@ -154,7 +154,7 @@ public class LevelOne implements Screen {
         camera.position.set(hero.getCenterX(),hero.getCenterY(),0);
         renderer.render(world, camera.combined);
         world.step(1/60f, 6,2);
-        if(openMenu){
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             pause();
         }
 
@@ -167,17 +167,20 @@ public class LevelOne implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void pause() {
+        openMenu=false;
+        music.pause();
         game.changeScreen("pauseMenu");
 
     }
 
     @Override
     public void resume() {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
     }
 

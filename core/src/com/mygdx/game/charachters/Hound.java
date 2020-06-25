@@ -14,7 +14,8 @@ public class Hound extends NotPlayerCharachter implements Enemy {
     }
 
     Coordinator coordinator;
-    Sword sword;
+    Sword swordLong;
+    Sword swordShort;
 
     public Hound(World world, float x, float y) {
         //x - 9 , y - 8
@@ -64,7 +65,8 @@ public class Hound extends NotPlayerCharachter implements Enemy {
         body.createFixture(fixtureDef).setUserData("Enemy");
         shape.dispose();
 
-
+        swordLong=new Sword(world, body.getPosition().x, body.getPosition().y,15, getHeight(), this);
+        swordShort=new Sword(world, body.getPosition().x, body.getPosition().y,5, getHeight(), this);
 
         MassData massData = body.getMassData();
         massData.mass=40;
@@ -78,11 +80,13 @@ public class Hound extends NotPlayerCharachter implements Enemy {
     public void act(float delta) {
         move();
         setPosition(body.getPosition().x-getWidth()/2,body.getPosition().y-getHeight()/2);
+        swordShort.getBody().setTransform(body.getPosition(),0);
+        swordLong.getBody().setTransform(body.getPosition(),0);
+        swordShort.act(delta);
+        swordLong.act(delta);
         if(health<=0){
             body.setActive(false);
-
             dispose();
-
         }
     }
 

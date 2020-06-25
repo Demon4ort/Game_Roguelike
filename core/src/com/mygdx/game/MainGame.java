@@ -65,7 +65,10 @@ public class MainGame extends Game {
 				if(pauseMenu==null){
 					pauseMenu=new PauseMenu(this);
 					this.setScreen(pauseMenu);
+				}else{
+					this.setScreen(pauseMenu);
 				}
+				break;
 			case "end":
 				if(endScreen==null){
 					endScreen=new EndScreen(this);
