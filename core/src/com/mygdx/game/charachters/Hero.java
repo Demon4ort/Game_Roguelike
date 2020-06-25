@@ -12,11 +12,15 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.Coordinator;
+import com.mygdx.game.MainGame;
+import com.mygdx.game.screens.LevelOne;
 
 public class Hero extends  GameObject {
 
     private Sound attack;
 
+    private LevelOne levelOne;
+    private  MainGame mainGame;
     boolean isPressed;
     int keyCode;
     public final static float ATTACK_RANGE=1.7f;
@@ -101,10 +105,12 @@ public class Hero extends  GameObject {
 
     Hound enemy;
 
-    public Hero(World world, Coordinator coordinator) {
+    public Hero(World world, Coordinator coordinator, final LevelOne levelOne) {
+
 
         super(world);
         this.coordinator=coordinator;
+        this.levelOne = levelOne;
         id ="Hero";
         currentState=State.IDLE;
         currentState=State.IDLE;
@@ -206,6 +212,9 @@ public class Hero extends  GameObject {
                 isPressed=false;
                 if(keycode== Input.Keys.F){
                     attackSignal+=1;
+                }
+                if (keycode == Input.Keys.ESCAPE){
+                    levelOne.openMenu = true;
                 }
 
                 return super.keyUp(event, keycode);
@@ -321,6 +330,7 @@ public class Hero extends  GameObject {
                         getY()+ getHeight()/2,true);
 
             }
+
 
         }
     }

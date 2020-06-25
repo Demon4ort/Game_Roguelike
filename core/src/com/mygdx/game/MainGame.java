@@ -7,6 +7,7 @@ import com.mygdx.game.screens.EndScreen;
 import com.mygdx.game.screens.LevelOne;
 import com.mygdx.game.screens.LoadingScreen;
 import com.mygdx.game.screens.Menu;
+import com.mygdx.game.screens.PauseMenu;
 
 public class MainGame extends Game {
 
@@ -19,6 +20,7 @@ public class MainGame extends Game {
 	private LevelOne level;
 	private LoadingScreen loading;
 	private EndScreen endScreen;
+	private PauseMenu pauseMenu;
 	public final static float V_HEIGHT=208;
 	public final static float V_WIDTH=400;
 	public final static float PPM=100;
@@ -57,7 +59,13 @@ public class MainGame extends Game {
 				}else{
 					this.setScreen(level);
 				}
+
 				break;
+			case"pauseMenu":
+				if(pauseMenu==null){
+					pauseMenu=new PauseMenu(this);
+					this.setScreen(pauseMenu);
+				}
 			case "end":
 				if(endScreen==null){
 					endScreen=new EndScreen(this);
