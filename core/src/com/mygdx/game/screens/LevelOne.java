@@ -22,10 +22,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.Coordinator;
 import com.mygdx.game.MainGame;
 import com.mygdx.game.WorldContactListener;
-import com.mygdx.game.charachters.Enemy;
 import com.mygdx.game.charachters.GameObject;
 import com.mygdx.game.charachters.Ground;
 import com.mygdx.game.charachters.Hero;
+import com.mygdx.game.charachters.Hound;
 
 public class LevelOne implements Screen {
 
@@ -84,7 +84,7 @@ public class LevelOne implements Screen {
 
         camera.position.set(new Vector2(10,7), 0);
         Array<GameObject> actors=new Array<>();
-        Enemy enemy=new Enemy(world);
+        Hound enemy=new Hound(world);
         hero =new Hero(world,null);
 
 
@@ -105,7 +105,7 @@ public class LevelOne implements Screen {
         });
         stage.setKeyboardFocus(hero);
         Gdx.input.setInputProcessor(stage);
-        Array<Enemy> enemyArray=new Array<>();
+        Array<Hound> enemyArray=new Array<>();
         enemyArray.addAll(enemy);
         coordinator=new Coordinator(world,hero,enemyArray);
         hero.setCoordinator(coordinator);

@@ -3,16 +3,16 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.charachters.Enemy;
 import com.mygdx.game.charachters.GameObject;
 import com.mygdx.game.charachters.Hero;
+import com.mygdx.game.charachters.Hound;
 import com.mygdx.game.charachters.Sword;
 
 public class WorldContactListener implements ContactListener {
 
     Hero hero;
     Sword sword;
-    Enemy enemy;
+    Hound enemy;
 
     public boolean isInAttackRange() {
         return inAttackRange;
@@ -22,7 +22,7 @@ public class WorldContactListener implements ContactListener {
     public WorldContactListener(Array<GameObject> actors) {
         this.hero= (Hero) actors.get(1);
         sword=hero.getSword();
-        this.enemy=(Enemy) actors.get(0);
+        this.enemy=(Hound) actors.get(0);
     }
 
     @Override
@@ -40,10 +40,10 @@ public class WorldContactListener implements ContactListener {
             hero.setCanJump(true);
         }
         if(a.getUserData()=="Enemy"){
-            enemy= (Enemy) a.getBody().getUserData();
+            enemy= (Hound) a.getBody().getUserData();
         }
         if(b.getUserData()=="Enemy"){
-            enemy= (Enemy) b.getBody().getUserData();
+            enemy= (Hound) b.getBody().getUserData();
         }
 
 

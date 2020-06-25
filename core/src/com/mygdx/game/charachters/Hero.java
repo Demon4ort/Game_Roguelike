@@ -93,15 +93,15 @@ public class Hero extends  GameObject {
 
     Sword sword;
 
-    public Enemy getEnemy() {
+    public Hound getEnemy() {
         return enemy;
     }
 
-    public void setEnemy(Enemy enemy) {
+    public void setEnemy(Hound enemy) {
         this.enemy = enemy;
     }
 
-    Enemy enemy;
+    Hound enemy;
 
     public Hero(World world, Coordinator coordinator) {
 
