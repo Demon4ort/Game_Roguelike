@@ -69,6 +69,9 @@ public class Coordinator {
                     float d = (enemy.getPositionCentre().x - hero.getCenterX());
                     enemy.setHealth(20);
                     Gdx.app.log("Enemy", String.valueOf(enemy.getHealth()));
+                    if(enemy.getHealth()<=0){
+                        deathSignal(enemy);
+                    }
                     enemy.getBody().applyLinearImpulse(new Vector2(d * 100, 100), enemy.getPositionCentre(), true);
                 }
             }
@@ -79,9 +82,9 @@ public class Coordinator {
 
     public void deathSignal(NotPlayerCharachter enemy) {
         this.enemy=enemy;
-        int i=enemyArray.indexOf(enemy, false);
+        int i=enemyArray.indexOf(enemy, true);
         enemyArray.removeValue(enemy,true);
-        Gdx.app.log("Number", String.valueOf(enemyArray.first().getId()));
+        Gdx.app.log("Number", String.valueOf(i));
         hero.plusKill();
     }
 }

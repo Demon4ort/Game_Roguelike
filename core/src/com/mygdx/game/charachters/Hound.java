@@ -14,6 +14,7 @@ public class Hound extends NotPlayerCharachter implements Enemy {
     }
 
     Coordinator coordinator;
+    Sword sword;
 
     public Hound(World world, float x, float y) {
         //x - 9 , y - 8
@@ -62,6 +63,8 @@ public class Hound extends NotPlayerCharachter implements Enemy {
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef).setUserData("Enemy");
         shape.dispose();
+
+
 
         MassData massData = body.getMassData();
         massData.mass=40;

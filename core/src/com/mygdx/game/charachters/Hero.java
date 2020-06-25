@@ -33,6 +33,7 @@ public class Hero extends  GameObject {
 
     public void plusKill() {
         killCount++;
+        Gdx.app.log("Kills", String.valueOf(killCount));
     }
 
     public enum State{ATTACK, IDLE, JUMP, RUN, HURT};
@@ -214,7 +215,7 @@ public class Hero extends  GameObject {
                     attackSignal+=1;
                 }
                 if (keycode == Input.Keys.ESCAPE){
-                    levelOne.openMenu = true;
+                   // levelOne.openMenu = true;
                 }
 
                 return super.keyUp(event, keycode);

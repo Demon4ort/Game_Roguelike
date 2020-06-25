@@ -56,6 +56,7 @@ public class EndScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 //music.dispose();
                 game.setLevel(null);
+                music.pause();
                 game.changeScreen("game");
             }
         });

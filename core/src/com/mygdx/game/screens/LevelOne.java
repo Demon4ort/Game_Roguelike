@@ -1,7 +1,6 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -30,6 +29,8 @@ import java.util.ArrayList;
 
 public class LevelOne implements Screen {
 
+
+    private int enemyNumber;
     public boolean openMenu;
     World world;
     MainGame game;
@@ -109,8 +110,9 @@ public class LevelOne implements Screen {
             actors.add(enemy);
             houndArray.add(enemy);
         }
+        enemyNumber=enemyArray.size;
         //Demon demon=new Demon(world, 10,25);
-        hero =new Hero(world,null);
+        hero =new Hero(world,null, this);
 
         //stage.addActor(demon);
         stage.addActor(hero);
@@ -157,10 +159,7 @@ public class LevelOne implements Screen {
         }
 
         enemyArray=coordinator.getEnemyArray();
-        if(hero.getKillCount()==enemyArray.size){
-            dispose();
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+        if(hero.getKillCount()==enemyNumber){
             dispose();
         }
 
@@ -189,10 +188,11 @@ public class LevelOne implements Screen {
 
     @Override
     public void dispose() {
-        for(GameObject ob:actors){
+        /*for(GameObject ob:actors){
             ob.dispose();
         }
-        stage.dispose();
+         */
+        stage.clear();
         music.dispose();
         game.changeScreen("end");
     }

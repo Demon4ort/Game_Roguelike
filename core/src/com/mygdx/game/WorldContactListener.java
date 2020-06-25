@@ -11,11 +11,6 @@ public class WorldContactListener implements ContactListener {
     NotPlayerCharachter enemy;
     Sword sword;
 
-    public boolean isInAttackRange() {
-        return inAttackRange;
-    }
-
-    boolean inAttackRange;
     public WorldContactListener(Array<GameObject> actors) {
     }
 
