@@ -39,7 +39,6 @@ public class Menu implements Screen {
         table.setDebug(false);
         stage.addActor(table);
         Skin skin= new Skin(Gdx.files.internal("UI/quantum-horizon/skin/quantum-horizon-ui.json"));
-        //"rusty-robot/skin/rusty-robot-ui.json"
 
         TextButton play=new TextButton("PLAY",skin);
         TextButton chooseSave=new TextButton("Choose Save",skin);
