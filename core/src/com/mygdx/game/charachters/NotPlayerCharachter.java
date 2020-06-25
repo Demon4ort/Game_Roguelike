@@ -16,6 +16,12 @@ public abstract class NotPlayerCharachter extends GameObject {
 
     protected boolean isTurnedRight;
 
+    public String getItClass() {
+        return itClass;
+    }
+
+    protected String itClass;
+
     protected String sheetPath1;
     protected String sheetPath2;
     protected String sheetPath3;
@@ -61,6 +67,7 @@ public abstract class NotPlayerCharachter extends GameObject {
 
 
     }
+
 
     private TextureRegion getFrame(float dt){
         TextureRegion res;

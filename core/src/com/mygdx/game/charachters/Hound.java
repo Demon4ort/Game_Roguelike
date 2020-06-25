@@ -7,12 +7,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class Hound extends NotPlayerCharachter {
+public class Hound extends NotPlayerCharachter implements Enemy {
 
-    public Hound(World world) {
-        super(world, 9, 8, 3, 1.5f );
+    public Hound(World world, float x, float y) {
+        //x - 9 , y - 8
+        super(world, x, y, 3, 1.5f );
         Gdx.app.log("Sobaka de?", "HZ");
-        name="Enemy";
+        itClass="Hound";
 
 
         sheets[0]=new Texture("IO/Input/Game/HellHound/hell-hound-idle1.png");
@@ -44,6 +45,8 @@ public class Hound extends NotPlayerCharachter {
 
         PolygonShape shape=new PolygonShape();
         shape.setAsBox(getWidth()/2,getHeight()/2);
+        setBodyHeight(getHeight());
+        setBodyWidth(getWidth());
         bodyDef = new BodyDef();
         bodyDef.position.set(getX() + getWidth() / 2, getY() + getHeight() / 2);
         bodyDef.type = BodyDef.BodyType.DynamicBody;

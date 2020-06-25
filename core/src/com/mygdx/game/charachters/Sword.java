@@ -7,10 +7,17 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Sword extends GameObject {
 
+    public NotPlayerCharachter getEnemy() {
+        return enemy;
+    }
 
-    public Sword(World world, float x, float y) {
+    NotPlayerCharachter enemy;
+
+
+    public Sword(World world, float x, float y, float width, float height,NotPlayerCharachter enemy ) {
         super(world);
-        setBounds(x,y,3.4f, 2);
+        this.enemy=enemy;
+        setBounds(x,y,width, height);
         PolygonShape shape=new PolygonShape();
         shape.setAsBox(1.7f,1);
         BodyDef bodyDef=new BodyDef();

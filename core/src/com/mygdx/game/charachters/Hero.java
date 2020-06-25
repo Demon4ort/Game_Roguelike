@@ -87,11 +87,7 @@ public class Hero extends  GameObject {
     private static final int MAX_VX=8;
     int i=1;
 
-    public Sword getSword() {
-        return sword;
-    }
 
-    Sword sword;
 
     public Hound getEnemy() {
         return enemy;
@@ -107,7 +103,7 @@ public class Hero extends  GameObject {
 
         super(world);
         this.coordinator=coordinator;
-        name="Hero";
+        id ="Hero";
         currentState=State.IDLE;
         currentState=State.IDLE;
         stateTime =0;
@@ -178,7 +174,7 @@ public class Hero extends  GameObject {
         MassData massData = body.getMassData();
         massData.mass=80;
         body.setMassData(massData);
-        sword=new Sword(world,body.getPosition().x,body.getPosition().y);
+
 
         addListener(new InputListener(){
             @Override
@@ -191,6 +187,9 @@ public class Hero extends  GameObject {
                // Gdx.app.log("", String.valueOf(body.getMass()));
                 isPressed=true;
                 keyCode=keycode;
+                if(keycode== Input.Keys.F){
+                    attack.play(0.2f);
+                }
 
 
 
@@ -218,7 +217,6 @@ public class Hero extends  GameObject {
        if(currentState==State.ATTACK) coordinator.attack();
         move();
         setPosition(body.getPosition().x-getWidth()/2,body.getPosition().y-getHeight()/2);
-        sword.body.setTransform(body.getPosition(),0);
     }
 
     @Override
@@ -313,7 +311,7 @@ public class Hero extends  GameObject {
             if(keyCode== Input.Keys.F){
                 currentState=State.ATTACK;
                 canAttack=false;
-                attack.play();
+               // attack.play();
                 if(isTurnedRight){
                     body.applyLinearImpulse(5,0, getX()+ getWidth()/2,
                             getY()+ getHeight()/2,true);

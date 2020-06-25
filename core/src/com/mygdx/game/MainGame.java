@@ -23,7 +23,7 @@ public class MainGame extends Game {
 		music = Gdx.audio.newMusic(Gdx.files.internal("Sounds/drumlooper.mp3"));
 		music.setLooping(true);
 		music.setVolume(0.1f);
-		music.play();
+		//music.play();
 
 	}
 

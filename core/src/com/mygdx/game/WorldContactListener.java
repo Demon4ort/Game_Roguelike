@@ -3,16 +3,13 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.charachters.GameObject;
-import com.mygdx.game.charachters.Hero;
-import com.mygdx.game.charachters.Hound;
-import com.mygdx.game.charachters.Sword;
+import com.mygdx.game.charachters.*;
 
 public class WorldContactListener implements ContactListener {
 
     Hero hero;
+    NotPlayerCharachter enemy;
     Sword sword;
-    Hound enemy;
 
     public boolean isInAttackRange() {
         return inAttackRange;
@@ -20,9 +17,6 @@ public class WorldContactListener implements ContactListener {
 
     boolean inAttackRange;
     public WorldContactListener(Array<GameObject> actors) {
-        this.hero= (Hero) actors.get(1);
-        sword=hero.getSword();
-        this.enemy=(Hound) actors.get(0);
     }
 
     @Override
@@ -40,11 +34,29 @@ public class WorldContactListener implements ContactListener {
             hero.setCanJump(true);
         }
         if(a.getUserData()=="Enemy"){
-            enemy= (Hound) a.getBody().getUserData();
+            enemy= (NotPlayerCharachter) a.getBody().getUserData();
         }
         if(b.getUserData()=="Enemy"){
-            enemy= (Hound) b.getBody().getUserData();
+            enemy= (NotPlayerCharachter) b.getBody().getUserData();
         }
+
+        if(a.getUserData()=="Sword"){
+            sword=(Sword)a.getBody().getUserData();
+            if(b.getUserData()=="Enemy"){
+                NotPlayerCharachter non=sword.getEnemy();
+                if(non.getItClass()=="Hound"){
+                    Hound hound=(Hound)non;
+
+                }else if(non.getItClass()=="Demon"){
+                    Demon demon=(Demon)non;
+                }
+            }
+        }
+        if(a.getUserData()=="Sword"){
+            sword=(Sword)a.getBody().getUserData();
+        }
+
+
 
 
 

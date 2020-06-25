@@ -2,6 +2,7 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
@@ -22,10 +23,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.Coordinator;
 import com.mygdx.game.MainGame;
 import com.mygdx.game.WorldContactListener;
-import com.mygdx.game.charachters.GameObject;
-import com.mygdx.game.charachters.Ground;
-import com.mygdx.game.charachters.Hero;
-import com.mygdx.game.charachters.Hound;
+import com.mygdx.game.charachters.*;
 
 public class LevelOne implements Screen {
 
@@ -38,12 +36,15 @@ public class LevelOne implements Screen {
     WorldContactListener worldContactListener;
     Coordinator coordinator;
 
+    Music music;
+
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer tiledRenderer;
 
     public LevelOne(MainGame game){
         this.game=game;
+        music=Gdx.audio.newMusic(Gdx.files.internal("Sounds/drumlooper.mp3"));
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("maps/littleMap.tmx");
 
@@ -64,6 +65,9 @@ public class LevelOne implements Screen {
                     rect.getWidth()/16 ,rect.getHeight()/16 );
 
             stage.addActor(ground);
+            music.setLooping(true);
+            music.setVolume(0.1f);
+            music.play();
         }
 
 
@@ -84,10 +88,11 @@ public class LevelOne implements Screen {
 
         camera.position.set(new Vector2(10,7), 0);
         Array<GameObject> actors=new Array<>();
-        Hound enemy=new Hound(world);
+        Hound enemy=new Hound(world, 9, 8);
+        Demon demon=new Demon(world, 10,25);
         hero =new Hero(world,null);
 
-
+        stage.addActor(demon);
         stage.addActor(hero);
         stage.addActor(enemy);
         actors.addAll(enemy,hero);
@@ -105,8 +110,8 @@ public class LevelOne implements Screen {
         });
         stage.setKeyboardFocus(hero);
         Gdx.input.setInputProcessor(stage);
-        Array<Hound> enemyArray=new Array<>();
-        enemyArray.addAll(enemy);
+        Array<NotPlayerCharachter> enemyArray=new Array<>();
+        enemyArray.addAll(enemy,demon);
         coordinator=new Coordinator(world,hero,enemyArray);
         hero.setCoordinator(coordinator);
     }

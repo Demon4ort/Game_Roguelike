@@ -2,6 +2,7 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -18,6 +19,7 @@ public class Menu implements Screen {
     MainGame game;
     private OrthographicCamera camera;
     private Stage stage;
+    private Music music;
 
     public Menu(MainGame game) {
         this.game=game;
@@ -25,6 +27,10 @@ public class Menu implements Screen {
 
     @Override
     public void show() {
+        music = Gdx.audio.newMusic(Gdx.files.internal("Sounds/Medieval Melancholy.wav"));
+        music.setLooping(true);
+        music.setVolume(0.05f);
+        music.play();
         camera=new OrthographicCamera();
         stage=new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -47,6 +53,7 @@ public class Menu implements Screen {
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                music.dispose();
                 game.changeScreen("game");
             }
         });
@@ -89,6 +96,7 @@ public class Menu implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        music.dispose();
 
     }
 }

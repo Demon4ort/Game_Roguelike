@@ -14,17 +14,15 @@ public abstract class GameObject extends Actor {
         return health;
     }
 
-    @Override
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String name) {
+        this.id = name;
     }
 
-    String name="GameObject";
+    String id ="GameObject";
 
     int health;
 
@@ -36,6 +34,25 @@ public abstract class GameObject extends Actor {
     BodyDef bodyDef;
     private World world;
 
+    public float getBodyWidth() {
+        return bodyWidth;
+    }
+
+    public void setBodyWidth(float bodyWidth) {
+        this.bodyWidth = bodyWidth;
+    }
+
+    public float getBodyHeight() {
+        return bodyHeight;
+    }
+
+    public void setBodyHeight(float bodyHeight) {
+        this.bodyHeight = bodyHeight;
+    }
+
+    float bodyWidth;
+    float bodyHeight;
+
 
     public GameObject(World world) {
         this.world = world;
@@ -43,8 +60,9 @@ public abstract class GameObject extends Actor {
 
     public Vector2 getPosition00(){
         Vector2 temp=new Vector2();
-        temp.x=getX();
-        temp.y=getY();
+
+        temp.x=body.getPosition().x-bodyWidth/2;
+        temp.y=body.getPosition().y-bodyHeight/2;
         return temp;
     }
     public Vector2 getPositionCentre(){
@@ -53,12 +71,12 @@ public abstract class GameObject extends Actor {
     public Vector2 getPosition0Y(){
         Vector2 temp=new Vector2();
         temp.x=getX();
-        temp.y=getY()+getHeight();
+        temp.y=body.getPosition().y+bodyHeight/2;
         return temp;
     }
     public Vector2 getPositionX0(){
         Vector2 temp=new Vector2();
-        temp.x=getX()+getWidth();
+        temp.x=body.getPosition().x+bodyWidth/2;
         temp.y=getY();
         return temp;
     }
