@@ -51,6 +51,16 @@ public class LevelOne implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer tiledRenderer;
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    int health;
+
     public LevelOne(MainGame game){
         openMenu = false;
         this.game=game;
@@ -104,7 +114,7 @@ public class LevelOne implements Screen {
         //stage.addActor(demon);
         stage.addActor(hero);
         actors.addAll(hero);
-        coordinator=new Coordinator(world,hero,enemyArray,houndArray );
+        coordinator=new Coordinator(world,hero,enemyArray,this);
         worldContactListener=new WorldContactListener(actors, coordinator);
 
         world.setContactListener(worldContactListener);

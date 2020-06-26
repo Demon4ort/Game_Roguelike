@@ -7,8 +7,8 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.charachters.Hero;
 import com.mygdx.game.charachters.Hound;
 import com.mygdx.game.charachters.NotPlayerCharachter;
+import com.mygdx.game.screens.LevelOne;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 
@@ -25,11 +25,18 @@ public class Coordinator {
    public boolean attackSignal;
    private NotPlayerCharachter enemy;
 
+    public LevelOne getLevel() {
+        return level;
+    }
 
-    public Coordinator(World world, Hero hero, Array<NotPlayerCharachter> enemyArray, ArrayList<NotPlayerCharachter> houndArray) {
+    private LevelOne level;
+
+
+    public Coordinator(World world, Hero hero, Array<NotPlayerCharachter> enemyArray, LevelOne level) {
         this.world = world;
         this.hero = hero;
         this.enemyArray = enemyArray;
+        this.level=level;
     }
 
 
@@ -121,6 +128,8 @@ public class Coordinator {
                     float d = (enemy.getPositionCentre().x - hero.getCenterX());
                     enemy.setHealth(20);
                     Gdx.app.log("Enemy", String.valueOf(enemy.getHealth()));
+
+
                     if(enemy.getHealth()<=0){
                         deathSignal(enemy);
                     }
