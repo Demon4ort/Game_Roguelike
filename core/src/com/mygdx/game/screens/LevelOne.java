@@ -16,12 +16,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -34,11 +30,7 @@ import java.util.ArrayList;
 
 public class LevelOne implements Screen {
 
-    private Hud hud;
-    private Group group;
 
-    Label label;
-    private Table table;
     private int enemyNumber;
     public boolean openMenu;
     World world;
@@ -66,15 +58,7 @@ public class LevelOne implements Screen {
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("maps/littleMap.tmx");
 
-
-        Skin skin= new Skin(Gdx.files.internal("UI/quantum-horizon/skin/quantum-horizon-ui.json"));
-        label = new Label("100", skin);
-        group = new Group();
-        group.setScale(1/20f);
-        group.addActor(label);
-        table = new Table();
-
-        //  map = mapLoader.load("maps/lastMap.tmx");
+      //  map = mapLoader.load("maps/lastMap.tmx");
 
         tiledRenderer = new OrthogonalTiledMapRenderer(map,0.0625f);
         world=new World(new Vector2(0,-10),true);
@@ -85,10 +69,6 @@ public class LevelOne implements Screen {
 
         Ground ground;
 
-        table.bottom().left().add(group);
-        //hud = new Hud(game.batch);
-
-
         for(MapObject e: map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect=((RectangleMapObject)e).getRectangle();
             ground=new Ground(world,(rect.getX())/16,rect.getY()/16,
@@ -98,7 +78,6 @@ public class LevelOne implements Screen {
             music.setLooping(true);
             music.setVolume(0.1f);
             music.play();
-
         }
         houndArray=new ArrayList<>();
         stage.setDebugAll(true);
@@ -118,7 +97,6 @@ public class LevelOne implements Screen {
             actors.add(enemy);
             houndArray.add(enemy);
         }
-
         enemyNumber=enemyArray.size;
         //Demon demon=new Demon(world, 10,25);
         hero =new Hero(world,null, this);
@@ -149,46 +127,36 @@ public class LevelOne implements Screen {
             e.setCoordinator(coordinator);
         }
 
-        stage.addActor(table);
+
+
 
 
 
     }
-
-
-
-
-
-
-
 
 
 
     @Override
     public void show() {
-
         Box2D.init();
         music.play();
         Gdx.input.setInputProcessor(stage);
-        Gdx.input.setInputProcessor(stage);
+        //test for mark
     }
 
 
     @Override
     public void render(float delta) {
-
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(delta, 1 / 30f));
 
         tiledRenderer.setView(camera);
         tiledRenderer.render();
         stage.draw();
-        //hud.getStage().draw();
         camera.position.set(hero.getCenterX(),hero.getCenterY(),0);
         renderer.render(world, camera.combined);
         world.step(1/60f, 6,2);
-        if(openMenu){
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             pause();
         }
 
@@ -199,10 +167,6 @@ public class LevelOne implements Screen {
         if(hero.getHealth()<=0){
             game.changeScreen("lose");
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-            pause();
-        }
-        table.setPosition(camera.position.x, camera.position.y + 2);
 
     }
 
@@ -221,9 +185,7 @@ public class LevelOne implements Screen {
 
     @Override
     public void resume() {
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
     }
 

@@ -1,7 +1,6 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -75,9 +74,7 @@ public class PauseMenu implements Screen {
         stage.act(Math.min(delta, 1 / 30f));
         stage.draw();
 
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
-            pause();
-        }
+
 
 
 
@@ -92,6 +89,7 @@ public class PauseMenu implements Screen {
     @Override
     public void pause() {
         music.pause();
+        game.getLevel().openMenu=false;
         game.changeScreen("game");
     }
 
