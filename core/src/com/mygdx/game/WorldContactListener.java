@@ -52,7 +52,8 @@ public class WorldContactListener implements ContactListener {
                 hero=(Hero) b.getBody().getUserData();
                 if(true ){
                     if(!hero.isAttacking()){
-                        hero.setHealth(10);
+                        Gdx.app.log("CONTACT", String.valueOf(coordinator.getLevel().getHardness()));
+                        hero.setHealth(10*coordinator.getLevel().getHardness());
                         hero.setState(Hero.State.HURT);
                         coordinator.getLevel().setHealth(hero.getHealth());
                         Gdx.app.log("CONTACT", String.valueOf(hero.getHealth()));
@@ -67,7 +68,8 @@ public class WorldContactListener implements ContactListener {
                 if(true){
                     if(!hero.isAttacking()){
                         hero.setState(Hero.State.HURT);
-                        hero.setHealth(10);
+                        Gdx.app.log("CONTACT", String.valueOf(coordinator.getLevel().getHardness()));
+                        hero.setHealth(10*coordinator.getLevel().getHardness());
                         coordinator.getLevel().setHealth(hero.getHealth());
                         Gdx.app.log("CONTACT", String.valueOf(hero.getHealth()));
                     }

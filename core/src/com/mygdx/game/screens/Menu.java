@@ -6,13 +6,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MainGame;
@@ -47,11 +42,20 @@ public class Menu implements Screen {
         final TextButton soundOn=new TextButton("SoundOn",skin);
         TextButton exit = new TextButton("EXIT", skin);
         final Slider sound=new Slider(0.0f,1.0f,0.05f,false,skin);
+        final Slider hardness=new Slider(1,3,1,false,skin);
+        Label hard=new Label("Hardness", skin);
+        Label zvuk=new Label("Volume",skin);
         table.right().add(play).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
+        table.add(zvuk).fillX().uniformX();
+        table.row();
         table.add(sound).fillX().uniformX();
         table.row();
         table.add(soundOn).fillX().uniformX();
+        table.row();
+        table.add(hard);
+        table.row();
+        table.add(hardness);
         table.row();
         table.add(exit).fillX().uniformX();
 
@@ -79,6 +83,13 @@ public class Menu implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 game.musicVolume=sound.getValue();
                 music.setVolume(sound.getValue());
+            }
+        });
+        hardness.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setHardness((int) hardness.getValue());
+                Gdx.app.log("Hardness", String.valueOf(game.getHardness()));
             }
         });
         exit.addListener(new ChangeListener() {

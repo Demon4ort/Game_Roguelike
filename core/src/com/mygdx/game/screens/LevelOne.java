@@ -51,6 +51,7 @@ public class LevelOne implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer tiledRenderer;
 
+
     public int getHealth() {
         return health;
     }
@@ -60,10 +61,19 @@ public class LevelOne implements Screen {
     }
 
     int health;
+    String hp;
 
-    public LevelOne(MainGame game){
+    public int getHardness() {
+        return hardness;
+    }
+
+    int hardness;
+
+    public LevelOne(MainGame game, int hardness){
         openMenu = false;
         this.game=game;
+        this.hardness=hardness;
+        health=100;
         music=Gdx.audio.newMusic(Gdx.files.internal("Sounds/drumlooper.mp3"));
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("maps/littleMap.tmx");
@@ -76,6 +86,8 @@ public class LevelOne implements Screen {
         renderer = new Box2DDebugRenderer();
         camera=new OrthographicCamera();
         stage=new Stage(new FitViewport(30,22.5f,camera));
+
+
 
         Ground ground;
 
@@ -182,7 +194,7 @@ public class LevelOne implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

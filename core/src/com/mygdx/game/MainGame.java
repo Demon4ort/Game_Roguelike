@@ -28,6 +28,16 @@ public class MainGame extends Game {
 	public final static float V_WIDTH=400;
 	public final static float PPM=100;
 
+	public int getHardness() {
+		return hardness;
+	}
+
+	public void setHardness(int hardness) {
+		this.hardness = hardness;
+	}
+
+	private int hardness;
+
 	private Music music;
 	@Override
 	public void create () {
@@ -60,7 +70,7 @@ public class MainGame extends Game {
 				break;
 			case"game":
 				if(level==null){
-					level=new LevelOne(this);
+					level=new LevelOne(this,hardness);
 					this.setScreen(level);
 				}else{
 					this.setScreen(level);
