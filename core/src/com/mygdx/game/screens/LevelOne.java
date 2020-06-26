@@ -72,7 +72,11 @@ public class LevelOne implements Screen {
     public LevelOne(MainGame game, int hardness){
         openMenu = false;
         this.game=game;
-        this.hardness=hardness;
+        if(hardness!=0){
+            this.hardness=hardness;
+        }else {
+            this.hardness=2;
+        }
         health=100;
         music=Gdx.audio.newMusic(Gdx.files.internal("Sounds/drumlooper.mp3"));
         mapLoader = new TmxMapLoader();
@@ -89,21 +93,30 @@ public class LevelOne implements Screen {
 
 
 
-        Ground ground;
+        Platform platform;
+        for(MapObject e: map.getLayers().get("KinematicObjects").getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect=((RectangleMapObject)e).getRectangle();
 
+            platform=new Platform(world,(rect.getX())/16,rect.getY()/16,
+                    rect.getWidth()/16 ,rect.getHeight()/16 );
+            stage.addActor(platform);
+
+        }
+        Ground ground;
         for(MapObject e: map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect=((RectangleMapObject)e).getRectangle();
             ground=new Ground(world,(rect.getX())/16,rect.getY()/16,
                     rect.getWidth()/16 ,rect.getHeight()/16 );
 
             stage.addActor(ground);
-            music.setLooping(true);
-            music.setVolume(0.1f*game.musicVolume);
-            if(game.soundOn) music.play();
+
         }
         houndArray=new ArrayList<>();
         stage.setDebugAll(true);
 
+        music.setVolume(0.1f*game.musicVolume);
+        if(game.soundOn) music.play();
+        music.setLooping(true);
         camera.position.set(new Vector2(10,7), 0);
         actors=new Array<>();
         int[] x={3,21,20,4,47,48};
