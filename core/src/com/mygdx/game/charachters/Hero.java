@@ -258,7 +258,6 @@ public class Hero extends  GameObject {
                     attacking=false;
                 }
 
-
                 return super.keyUp(event, keycode);
             }
         });
