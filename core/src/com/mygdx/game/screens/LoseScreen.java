@@ -31,6 +31,7 @@ public class LoseScreen implements Screen {
     public void show() {
         music = Gdx.audio.newSound(Gdx.files.internal("Sounds/casual-game-lose-sound-effect-45947266.mp3"));
         music.play(0.1f);
+
         camera=new OrthographicCamera();
         stage=new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);

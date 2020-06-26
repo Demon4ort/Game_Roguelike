@@ -33,7 +33,7 @@ public class PauseMenu implements Screen {
     public void show() {
         music = Gdx.audio.newMusic(Gdx.files.internal("Sounds/Medieval Melancholy.wav"));
         music.setLooping(true);
-        music.setVolume(0.05f);
+        music.setVolume(0.05f*game.musicVolume);
         music.play();
         camera=new OrthographicCamera();
         stage=new Stage(new ScreenViewport());

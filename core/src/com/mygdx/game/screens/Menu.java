@@ -6,8 +6,11 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -41,11 +44,14 @@ public class Menu implements Screen {
         Skin skin= new Skin(Gdx.files.internal("UI/quantum-horizon/skin/quantum-horizon-ui.json"));
 
         TextButton play=new TextButton("PLAY",skin);
-        TextButton chooseSave=new TextButton("Choose Save",skin);
+        final TextButton soundOn=new TextButton("SoundOn",skin);
         TextButton exit = new TextButton("EXIT", skin);
+        final Slider sound=new Slider(0.0f,1.0f,0.05f,false,skin);
         table.right().add(play).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
-        table.add(chooseSave).fillX().uniformX();
+        table.add(sound).fillX().uniformX();
+        table.row();
+        table.add(soundOn).fillX().uniformX();
         table.row();
         table.add(exit).fillX().uniformX();
 
@@ -54,6 +60,25 @@ public class Menu implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 music.dispose();
                 game.changeScreen("game");
+            }
+        });
+        soundOn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.soundOn=!game.soundOn;
+                if(game.soundOn==false){
+                    music.dispose();
+                }else{
+                    music.play();
+                }
+
+            }
+        });
+        sound.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.musicVolume=sound.getValue();
+                music.setVolume(sound.getValue());
             }
         });
         exit.addListener(new ChangeListener() {

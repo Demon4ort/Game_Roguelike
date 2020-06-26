@@ -32,7 +32,7 @@ public class EndScreen implements Screen {
         music = Gdx.audio.newMusic(Gdx.files.internal("Sounds/Medieval Melancholy.wav"));
         music.setLooping(true);
         music.setVolume(0.05f);
-        music.play();
+        if(game.soundOn)music.play();
         camera=new OrthographicCamera();
         stage=new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);

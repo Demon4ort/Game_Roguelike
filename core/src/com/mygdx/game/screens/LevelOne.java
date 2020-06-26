@@ -96,9 +96,8 @@ public class LevelOne implements Screen {
 
             stage.addActor(ground);
             music.setLooping(true);
-            music.setVolume(0.1f);
-            music.play();
-
+            music.setVolume(0.1f*game.musicVolume);
+            if(game.soundOn) music.play();
         }
         houndArray=new ArrayList<>();
         stage.setDebugAll(true);
@@ -170,7 +169,7 @@ public class LevelOne implements Screen {
         Box2D.init();
         music.play();
         Gdx.input.setInputProcessor(stage);
-        Gdx.input.setInputProcessor(stage);
+        //test for mark
     }
 
 
@@ -184,13 +183,9 @@ public class LevelOne implements Screen {
         tiledRenderer.setView(camera);
         tiledRenderer.render();
         stage.draw();
-        //hud.getStage().draw();
         camera.position.set(hero.getCenterX(),hero.getCenterY(),0);
         renderer.render(world, camera.combined);
         world.step(1/60f, 6,2);
-        if(openMenu){
-            pause();
-        }
 
         enemyArray=coordinator.getEnemyArray();
         if(hero.getKillCount()==enemyNumber){

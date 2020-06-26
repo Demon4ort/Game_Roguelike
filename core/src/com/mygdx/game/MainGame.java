@@ -10,6 +10,8 @@ public class MainGame extends Game {
 
 	Menu menu;
 	private LoseScreen loseScreen;
+	public boolean soundOn;
+	public float musicVolume;
 
 	public void setLevel(LevelOne level) {
 		this.level = level;
@@ -18,7 +20,6 @@ public class MainGame extends Game {
 	public LevelOne getLevel() {
 		return level;
 	}
-	public SpriteBatch batch;
 
 	private LevelOne level;
 	private LoadingScreen loading;
@@ -31,13 +32,14 @@ public class MainGame extends Game {
 	private Music music;
 	@Override
 	public void create () {
-
 		setScreen(new Menu(this));
-		batch = new SpriteBatch();
 		music = Gdx.audio.newMusic(Gdx.files.internal("Sounds/drumlooper.mp3"));
 		music.setLooping(true);
-		music.setVolume(0.1f);
-		music.play();
+		musicVolume=0.1f;
+		music.setVolume(musicVolume);
+		soundOn=true;
+
+		//music.play();
 
 	}
 

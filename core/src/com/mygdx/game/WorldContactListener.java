@@ -53,6 +53,7 @@ public class WorldContactListener implements ContactListener {
                 if(true ){
                     if(!hero.isAttacking()){
                         hero.setHealth(10);
+                        hero.setState(Hero.State.HURT);
                         Gdx.app.log("CONTACT", String.valueOf(hero.getHealth()));
                     }
                 }
