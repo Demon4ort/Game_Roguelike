@@ -11,6 +11,8 @@ public class MainGame extends Game {
 	private LoseScreen loseScreen;
 	public boolean soundOn;
 	public float musicVolume;
+	public long startTime;
+	public long endTime;
 
 	public void setLevel(LevelOne level) {
 		this.level = level;
@@ -42,6 +44,7 @@ public class MainGame extends Game {
 	@Override
 	public void create () {
 		setScreen(new Menu(this));
+		endTime=0;
 		music = Gdx.audio.newMusic(Gdx.files.internal("Sounds/drumlooper.mp3"));
 		music.setLooping(true);
 		musicVolume=0.1f;

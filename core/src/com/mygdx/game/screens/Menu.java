@@ -42,7 +42,7 @@ public class Menu implements Screen {
         final TextButton soundOn=new TextButton("SoundOn",skin);
         TextButton exit = new TextButton("EXIT", skin);
         final Slider sound=new Slider(0.0f,1.0f,0.05f,false,skin);
-        final Slider hardness=new Slider(1,3,1,false,skin);
+        final Slider hardness=new Slider(1,5,1,false,skin);
         Label hard=new Label("Hardness", skin);
         Label zvuk=new Label("Volume",skin);
         table.right().add(play).fillX().uniformX();

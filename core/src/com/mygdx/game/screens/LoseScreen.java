@@ -42,10 +42,14 @@ public class LoseScreen implements Screen {
         Skin skin= new Skin(Gdx.files.internal("UI/quantum-horizon/skin/quantum-horizon-ui.json"));
 
         Label victory=new Label("LOSE!",skin);
+        String end= (game.endTime/1000)+"s time";
+        Label time=new Label(end,  skin);
         TextButton play=new TextButton("PLAY",skin);
         TextButton exit = new TextButton("EXIT", skin);
         table.add(victory).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
+        table.add(time);
+        table.row();
         table.add(play).fillX().uniformX();
         table.row();
         table.add(exit).fillX().uniformX();

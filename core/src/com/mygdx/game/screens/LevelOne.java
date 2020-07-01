@@ -72,6 +72,8 @@ public class LevelOne implements Screen {
     public LevelOne(MainGame game, int hardness){
         openMenu = false;
         this.game=game;
+        game.startTime=0;
+        game.endTime=0;
         if(hardness!=0){
             this.hardness=hardness;
         }else {
@@ -112,7 +114,7 @@ public class LevelOne implements Screen {
 
         }
         houndArray=new ArrayList<>();
-        stage.setDebugAll(true);
+        stage.setDebugAll(false);
 
         music.setVolume(0.1f*game.musicVolume);
         if(game.soundOn) music.play();
@@ -176,6 +178,7 @@ public class LevelOne implements Screen {
         Box2D.init();
         music.play();
         Gdx.input.setInputProcessor(stage);
+        game.startTime=System.currentTimeMillis();
         //test for mark
     }
 
@@ -189,10 +192,11 @@ public class LevelOne implements Screen {
         tiledRenderer.render();
         stage.draw();
         camera.position.set(hero.getCenterX(),hero.getCenterY(),0);
-        renderer.render(world, camera.combined);
+        //renderer.render(world, camera.combined);
         world.step(1/60f, 6,2);
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
             pause();
+            game.endTime+=System.currentTimeMillis()-game.startTime;
         }
 
         enemyArray=coordinator.getEnemyArray();
@@ -200,6 +204,8 @@ public class LevelOne implements Screen {
             dispose();
         }
         if(hero.getHealth()<=0){
+            game.endTime+=System.currentTimeMillis()-game.startTime;
+            Gdx.app.log("time", String.valueOf(game.endTime/1000));
             game.changeScreen("lose");
         }
 
@@ -220,6 +226,7 @@ public class LevelOne implements Screen {
 
     @Override
     public void resume() {
+        game.startTime=System.currentTimeMillis();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
     }
@@ -237,6 +244,8 @@ public class LevelOne implements Screen {
          */
         stage.clear();
         music.dispose();
+       // game.endTime+=System.currentTimeMillis()-game.startTime;
+        Gdx.app.log("time", String.valueOf(game.endTime));
         game.changeScreen("end");
     }
 }
